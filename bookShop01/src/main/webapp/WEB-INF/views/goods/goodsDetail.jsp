@@ -38,7 +38,7 @@
 		$.ajax({
 			type : "post",
 			async : false, //false인 경우 동기식으로 처리한다.
-			url : "http://localhost:8090/bookshop01/cart/addCart.do",
+			url : "http://localhost:8091/bookshop01/cart/addCart.do",
 			data : {
 				goods_id:goods_id
 				

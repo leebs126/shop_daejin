@@ -228,7 +228,7 @@ function fn_modify_member_info(member_id,mod_type){
 		$.ajax({
 			type : "post",
 			async : false, //false인 경우 동기식으로 처리한다.
-			url : "http://localhost:8090/bookshop01/mypage/modifyMyInfo.do",
+			url : "http://localhost:8091/bookshop01/mypage/modifyMyInfo.do",
 			data : {
 				member_id:member_id,
 				mod_type:mod_type,

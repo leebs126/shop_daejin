@@ -67,7 +67,7 @@ function modify_cart_qty(goods_id,bookPrice,index){
 	$.ajax({
 		type : "post",
 		async : false, //false인 경우 동기식으로 처리한다.
-		url : "http://localhost:8090/bookshop01/cart/modifyCartQty.do",
+		url : "http://localhost:8091/bookshop01/cart/modifyCartQty.do",
 		data : {
 			goods_id:goods_id,
 			cart_goods_qty:cart_goods_qty

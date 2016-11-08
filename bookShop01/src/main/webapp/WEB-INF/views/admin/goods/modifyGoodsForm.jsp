@@ -71,7 +71,7 @@ function fn_modify_goods(goods_id, mod_type){
 	$.ajax({
 		type : "post",
 		async : false, //false인 경우 동기식으로 처리한다.
-		url : "http://localhost:8090/bookshop01/admin/goods/modifyGoodsInfo.do",
+		url : "http://localhost:8091/bookshop01/admin/goods/modifyGoodsInfo.do",
 		data : {
 			goods_id:goods_id,
 			mod_type:mod_type,
