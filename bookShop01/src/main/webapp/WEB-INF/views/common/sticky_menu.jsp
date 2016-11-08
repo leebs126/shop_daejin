@@ -8,7 +8,7 @@
 
 <script>
 var array_index=0;
-var SERVER_URL="http://localhost:8090/bookshop01/fileDownload.do";
+var SERVER_URL="http://localhost:8091/bookshop01/fileDownload.do";
 function fn_show_next_goods(){
 	var img_sticky=document.getElementById("img_sticky");
 	var cur_goods_num=document.getElementById("cur_goods_num");

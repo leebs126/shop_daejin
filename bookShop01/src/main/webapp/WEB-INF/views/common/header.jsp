@@ -14,7 +14,7 @@ function keywordSearch(){
 	$.ajax({
 		type : "get",
 		async : true, //false인 경우 동기식으로 처리한다.
-		url : "http://localhost:8090/bookshop01/goods/keywordSearch.do",
+		url : "http://localhost:8091/bookshop01/goods/keywordSearch.do",
 		data : {keyword:value},
 		success : function(data, textStatus) {
 		//	alert("success");

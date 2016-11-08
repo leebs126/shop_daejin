@@ -153,7 +153,7 @@ function fn_modify_order_state(mod_type,order_id,index){
 	$.ajax({
 		type : "post",
 		async : false, //false인 경우 동기식으로 처리한다.
-		url : "http://localhost:8090/bookshop01/admin/order/modifyDeliveryState.do",
+		url : "http://localhost:8091/bookshop01/admin/order/modifyDeliveryState.do",
 		data : {
 			order_id:order_id,
 			mod_type:mod_type,

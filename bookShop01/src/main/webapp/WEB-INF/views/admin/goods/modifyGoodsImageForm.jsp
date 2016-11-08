@@ -12,7 +12,7 @@
 	 $.ajax({
 		type : "post",
 		async : false, //false인 경우 동기식으로 처리한다.
-		url : "http://localhost:8090/bookshop01/admin/goods/deleteImageFile.do",
+		url : "http://localhost:8091/bookshop01/admin/goods/deleteImageFile.do",
 		data : {
 			command:"delete_image",
 			image_id:image_id,
