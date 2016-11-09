@@ -37,6 +37,7 @@
 			<li><a href="#">나의 주소록</a></li>
 			<li><a href="#">개인정보 동의내역</a></li>
 			<li><a href="#">회원탈퇴</a></li>
+			<li><a href="${pageContext.request.contextPath}/mypage/myMainSettingForm.do">메인페이지 구성</a></li>
 		</ul>
 	</li>
 </c:when>

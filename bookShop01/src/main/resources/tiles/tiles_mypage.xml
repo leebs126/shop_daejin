@@ -19,6 +19,10 @@
        <put-attribute name="title" value="내 정보 상세 페이지" />
        <put-attribute name="body" value="/WEB-INF/views/mypage/myInfoDetail.jsp" />
      </definition>
+     <definition name="/mypage/myMainSettingForm" extends="base.definition">
+       <put-attribute name="title" value="메인페이지 설정창" />
+       <put-attribute name="body" value="/WEB-INF/views/mypage/myMainSettingForm.jsp" />
+     </definition>
 </tiles-definitions>
 
 
