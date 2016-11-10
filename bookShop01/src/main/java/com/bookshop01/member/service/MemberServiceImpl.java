@@ -19,6 +19,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	public void addMember(MemberBean memberBean) throws Exception{
 		memberDao.addMember(memberBean);
+		memberDao.addMainSetting(memberBean);
 	}
 	
 	

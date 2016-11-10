@@ -10,10 +10,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bookshop01.goods.vo.GoodsBean;
 import com.bookshop01.goods.vo.ReviewBean;
+import com.bookshop01.member.vo.MemberBean;
 
 public interface GoodsService {
 	
 	public HashMap<String,ArrayList<GoodsBean>> listGoods() throws Exception;
+	public HashMap<String,ArrayList<GoodsBean>> listGoods(MemberBean memberBean) throws Exception;
+		
 	public HashMap goodsDetail(String _goods_id,int chapter,int pageNum) throws Exception;
 	public ArrayList keywordSearch(String keyword) throws Exception;
 	public ArrayList searchGoods(String searchWord) throws Exception;

@@ -13,5 +13,6 @@ public interface GoodsDao {
 	public ArrayList searchGoods(String searchWord) throws Exception;
 	public ArrayList reviewList(ReviewBean reviewBean) throws Exception;
 	public void insertReview(ReviewBean reviewBean) throws Exception;
+	public ArrayList mainSettingList(String member_id) throws Exception;
 	
 }

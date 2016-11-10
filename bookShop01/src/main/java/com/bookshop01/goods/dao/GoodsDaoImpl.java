@@ -24,8 +24,8 @@ public class GoodsDaoImpl  implements GoodsDao{
 	@Autowired
 	private SqlSession sqlSession;
 
-	public ArrayList listGoods(String goodsType ) throws Exception {
-		ArrayList list=(ArrayList)sqlSession.selectList("mapper.goods.listGoods",goodsType);
+	public ArrayList listGoods(String goods_type ) throws Exception {
+		ArrayList list=(ArrayList)sqlSession.selectList("mapper.goods.listGoods",goods_type);
 	   return list;	
      
 	}
@@ -56,5 +56,10 @@ public class GoodsDaoImpl  implements GoodsDao{
 	}
 	public void insertReview(ReviewBean reviewBean) throws Exception{
 		sqlSession.insert("mapper.goods.insertReview",reviewBean);
+	}
+	public ArrayList mainSettingList(String member_id) throws Exception{
+		ArrayList settingList=(ArrayList)sqlSession.selectList("mapper.goods.mainSettingList",member_id);
+		return settingList;
+		
 	}
 }

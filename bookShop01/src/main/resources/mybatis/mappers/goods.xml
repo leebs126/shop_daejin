@@ -55,7 +55,6 @@
         	and d.filetype='main_image'
         	and goods_type=#{goods_type}
             order by g.goods_creDate desc)  t
-	             
 	             where   rowNum <12
 	    ]]>
 	</select>
@@ -131,4 +130,11 @@
 	                              #{review_content},
 	                              #{review_pw})        
 </insert>	
+<select id="mainSettingList" parameterType="String" resultMap="goodsResult"   >
+   select goods_type from t_shoping_main_setting
+   where
+   member_id=#{member_id}
+   and show_yn='y' 
+</select>
+
 </mapper>

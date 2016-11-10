@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bookshop01.common.controller.BaseController;
 import com.bookshop01.goods.service.GoodsService;
 import com.bookshop01.goods.vo.GoodsBean;
+import com.bookshop01.member.vo.MemberBean;
 
 @Controller("mainController")
 @RequestMapping(value="/main")
@@ -25,6 +26,7 @@ public class MainControllerImpl extends BaseController {
 
 	@RequestMapping(value="/main.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		HashMap<String,ArrayList<GoodsBean>> goodsMap=null;
 		HttpSession session;
 		ModelAndView mav=new ModelAndView();
 		String fileName=getFileName(request);
@@ -32,7 +34,16 @@ public class MainControllerImpl extends BaseController {
 		
 		session=request.getSession();
 		session.setAttribute("side_menu", "user");
-		HashMap<String,ArrayList<GoodsBean>> goodsMap=goodsService.listGoods();
+		
+		//boolean isLogOn=(Boolean)session.getAttribute("isLogOn");
+		MemberBean memberBean=(MemberBean)session.getAttribute("member_info");
+		if(memberBean!=null){ //로그인 상태
+			goodsMap=goodsService.listGoods(memberBean);
+		}else{ //로그아웃 상태
+			goodsMap=goodsService.listGoods();	
+		}
+		
+		
 		mav.addObject("goodsMap", goodsMap);
 		return mav;
 	}

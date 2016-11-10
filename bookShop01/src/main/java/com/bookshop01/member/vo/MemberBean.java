@@ -1,5 +1,6 @@
 package com.bookshop01.member.vo;
 
+import java.util.HashMap;
 
 public class MemberBean {
 	private String member_id;
@@ -26,6 +27,7 @@ public class MemberBean {
 	private String namujiAddress;
 	private String joinDate;
 	private String del_yn;
+	
 	
 	public String getMember_id() {
 		return member_id;
@@ -181,6 +183,5 @@ public class MemberBean {
 	public void setDel_yn(String del_yn) {
 		this.del_yn = del_yn;
 	}
-	
 }
 

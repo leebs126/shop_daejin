@@ -92,4 +92,20 @@
                                       
    ]]>      
   </insert>
+  
+<insert id="addMainSetting"  parameterType="java.util.HashMap">
+   <selectKey resultType="String" keyProperty="main_setting_id" order="BEFORE">
+         select seq_main_setting_id.nextval from dual
+    </selectKey>
+  <![CDATA[
+    	insert into t_shoping_main_setting(main_setting_id,
+    	                                   member_id,
+    	                                   goods_type,
+    	                                   show_yn)    	                       
+							       values(#{main_setting_id},
+							              #{member_id},
+							              #{goods_type},
+							              #{show_yn}  )                                  
+   ]]>      
+  </insert>  
 </mapper>
