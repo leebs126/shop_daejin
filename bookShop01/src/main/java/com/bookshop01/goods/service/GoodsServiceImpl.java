@@ -51,9 +51,9 @@ public class GoodsServiceImpl implements GoodsService{
 		//goodsMap.put("searchWordList",searchWordList);
 		
 		//팝업 정보 가지고 오기
-		ArrayList popupList=goodsDao.popupList();
+		/*ArrayList popupList=goodsDao.popupList();
 		goodsMap.put("popupList", popupList);
-		
+		*/
 		return goodsMap;
 	}
 	
