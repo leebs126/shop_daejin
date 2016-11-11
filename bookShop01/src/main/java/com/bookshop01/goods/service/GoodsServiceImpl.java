@@ -46,6 +46,14 @@ public class GoodsServiceImpl implements GoodsService{
 		goodsList=goodsDao.listGoods("steadyseller");
 		goodsMap.put("steadyseller",goodsList);
 		
+		//검색 단어 테이블에서 자주 검색되는 단어를 가지고 온다.
+		//ArrayList searchWordList=goodsDao.searchWordList();
+		//goodsMap.put("searchWordList",searchWordList);
+		
+		//팝업 정보 가지고 오기
+		ArrayList popupList=goodsDao.popupList();
+		goodsMap.put("popupList", popupList);
+		
 		return goodsMap;
 	}
 	

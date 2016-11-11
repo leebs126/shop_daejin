@@ -483,12 +483,12 @@ function fn_review_modify(){
 			</a> <br />
 			 <font size="5" id="contents"><p id="message">글 상세 내용입니다.</p></font><br>
 			 
-<form action='${pageContext.request.contextPath}/cart/myCartMain.do'>				
-        <input  name="btn_review_modify" type="button"  value="수정" onClick="fn_review_modify()">
-		<input  name="btn_cart_list" type="button"  value="닫기" onClick="fn_reviewDetail('close','.layer_review')">
-			<div>
-		</div>
-</form>
+		<form action='${pageContext.request.contextPath}/cart/myCartMain.do'>				
+		        <input  name="btn_review_modify" type="button"  value="수정" onClick="fn_review_modify()">
+				<input  name="btn_cart_list" type="button"  value="닫기" onClick="fn_reviewDetail('close','.layer_review')">
+		</form>
+	<div>
+	</div>
 </body>
 </html>
 <input type="hidden" name="isLogOn" id="isLogOn" value="${isLogOn}"/>

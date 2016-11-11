@@ -14,7 +14,7 @@ function keywordSearch(){
 	$.ajax({
 		type : "get",
 		async : true, //false인 경우 동기식으로 처리한다.
-		url : "http://localhost:8091/bookshop01/goods/keywordSearch.do",
+		url : "http://localhost:8090/bookshop01/goods/keywordSearch.do",
 		data : {keyword:value},
 		success : function(data, textStatus) {
 		//	alert("success");
@@ -99,7 +99,22 @@ function hide(elementId){
 	<div id="search" >
 		<form name="frmSearch" action="${pageContext.request.contextPath}/goods/searchGoods.do" >
 			<input name="searchWord" class="main_input" type="text"  onKeyUp="keywordSearch()"> 
-			<input type="submit" name="search" class="btn1"  value="검 색" >
+			<input type="submit" name="search" class="btn1"  value="검 색" ><br>
+			 <div>
+			 <marquee direction=left  scrolldelay="0"  width=240
+			                   onmouseover="stop();" onmouseout="start();">
+			                   
+			    <c:forEach  var="item" items="${goodsMap.searchWordList }" >
+			         <a href="${pageContext.request.contextPath}/goods/searchGoods.do?searchWord=${item.search_word}">${item.search_word } |</a>
+			    </c:forEach>                
+			    <!-- <a href="#">토익 |</a>
+			    <a href="#">소설</a> |
+			     <a href="#">수필</a> |
+			     <a href="#">만화</a> |
+			     <a href="#">자기 계발서</a> |
+			     <a href="#">수능</a> -->
+			 </marquee>
+			 </div>
 		</form>
 	</div>
    <div id="suggest">

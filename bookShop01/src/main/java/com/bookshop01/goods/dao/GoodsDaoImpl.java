@@ -60,6 +60,14 @@ public class GoodsDaoImpl  implements GoodsDao{
 	public ArrayList mainSettingList(String member_id) throws Exception{
 		ArrayList settingList=(ArrayList)sqlSession.selectList("mapper.goods.mainSettingList",member_id);
 		return settingList;
-		
+	}
+	public ArrayList searchWordList() throws Exception{
+		ArrayList searchWordList=(ArrayList)sqlSession.selectList("mapper.goods.searchWordList");
+		return searchWordList;
+	}
+	
+	public ArrayList popupList() throws Exception{
+		ArrayList popupList=(ArrayList)sqlSession.selectList("mapper.goods.popupList");
+		return popupList;
 	}
 }

@@ -5,7 +5,42 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 
+<style>
+#layer_newbook{
+	z-index: 5;
+	position: absolute;
+	top: 30%;
+	left: 0px;
+	width: 100%;
+}
 
+#popup {
+	z-index: 6;
+	position: absolute;
+	text-align: center;
+	left: 25%;
+	top: 30%;
+	width: 700px;
+	height: 500px;
+	background-color: #ccffff;
+	border: 3px solid #87cb42;
+}
+
+#image_newbook {
+	z-index:7;
+}
+
+#close {
+	z-index: 6;
+	float: right;
+}
+</style>
+
+<script>
+ function test(){
+	 alert("aaa");
+ }
+</script>
 <div id="ad_main_banner">
 	<ul class="bjqs">
 		<li><img width="775" height="145" src="${pageContext.request.contextPath}/resources/image/main_banner1.jpg"></li>
@@ -130,3 +165,25 @@
      </c:if>
    <div class="clear"></div>   
 </c:if>   
+
+<c:forEach var="item" items="${goodsMap.popupList}" >
+<div id="layer_newbook" style="visibility:visibile">
+		<!-- visibility:hidden 으로 설정하여 해당 div안의 모든것들을 가려둔다. -->
+		<div id="popup">
+			<!-- 팝업창 닫기 버튼 -->
+			<a href="#"> 
+			<img src="${pageContext.request.contextPath}/resources/image/close.png" id="close" />
+			</a> <br />
+			 <font size="2" id="contents"><p id="message">${item.popup_message }</p></font><br>
+			 <div  id="image_newbook" >
+			 <a href="javascript:test()">
+			    <img width=500 height=300  
+			       src="${pageContext.request.contextPath}/fileDownload.do?goods_id=${item.goods_id}&fileName=${item.popup_imagename}" />  
+		    </a>
+		    </div>
+		     오늘 그만 보기<input  type="checkbox"  />
+		    
+	   <div>
+   </div>
+</div>
+</c:forEach>   

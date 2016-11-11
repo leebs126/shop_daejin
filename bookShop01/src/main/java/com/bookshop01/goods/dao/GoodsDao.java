@@ -15,4 +15,8 @@ public interface GoodsDao {
 	public void insertReview(ReviewBean reviewBean) throws Exception;
 	public ArrayList mainSettingList(String member_id) throws Exception;
 	
+	public ArrayList searchWordList() throws Exception;
+	public ArrayList popupList() throws Exception;
+	
+	
 }
