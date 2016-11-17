@@ -79,6 +79,9 @@ public class AdminGoodsDaoImpl  implements AdminGoodsDao{
 		
 	}
 
-	
+	public ArrayList goods_img_list(HashMap condMap) throws Exception{
+		ArrayList goods_img_list=(ArrayList)sqlSession.selectList("mapper.admin.goods.goods_img_list",condMap);
+		return goods_img_list;
+	}
 
 }

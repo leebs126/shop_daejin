@@ -40,6 +40,23 @@
  function test(){
 	 alert("aaa");
  }
+ 
+ function showPopup(type) {
+		if (type == 'open') {
+			// 팝업창을 연다.
+			jQuery('#layer_newbook').attr('style', 'visibility:visible');
+
+			// 페이지를 가리기위한 레이어 영역의 높이를 페이지 전체의 높이와 같게 한다.
+			jQuery('#layer_newbook').height(jQuery(document).height());
+		}
+
+		else if (type == 'close') {
+
+			// 팝업창을 닫는다.
+			jQuery('#layer_newbook').attr('style', 'visibility:hidden');
+		}
+	} 
+ 
 </script>
 <div id="ad_main_banner">
 	<ul class="bjqs">
@@ -138,7 +155,7 @@
 	<img width="770" height="117" src="${pageContext.request.contextPath}/resources/image/sub_banner1.jpg">
 </div>
 
-<c:if test="${isLogOn==true }">
+<c:if test="${isLogOn==true and !empty  goodsMap.writer_book  }">
 <div  class="main_book">
 <c:set  var="goods_count" value="0" />
 	<h3>작가별</h3>
@@ -172,7 +189,7 @@
 		<div id="popup">
 			<!-- 팝업창 닫기 버튼 -->
 			<a href="#"> 
-			<img src="${pageContext.request.contextPath}/resources/image/close.png" id="close" />
+			<img src="${pageContext.request.contextPath}/resources/image/close.png" id="close" onClick="showPopup('close')" />
 			</a> <br />
 			 <font size="2" id="contents"><p id="message">${item.popup_message }</p></font><br>
 			 <div  id="image_newbook" >

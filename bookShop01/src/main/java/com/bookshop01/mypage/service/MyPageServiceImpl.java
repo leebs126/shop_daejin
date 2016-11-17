@@ -40,4 +40,9 @@ public class MyPageServiceImpl  implements MyPageService{
 	public MemberBean myInfoDetail(String member_id) throws Exception{
 		return myPageDao.myInfoDetail(member_id);
 	}
+	
+	//메인 설정 변경 메서드
+		public void modifyMainSetting(HashMap showMap) throws Exception{
+			myPageDao.modifyMainSetting(showMap);
+		}
 }

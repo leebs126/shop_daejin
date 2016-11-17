@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-
+import java.util.HashMap;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bookshop01.goods.vo.GoodsBean;
 import com.bookshop01.goods.vo.ReviewBean;
+import com.bookshop01.goods.vo.UserRecoBean;
 
 @Repository("goodsDao")
 public class GoodsDaoImpl  implements GoodsDao{
@@ -52,7 +53,7 @@ public class GoodsDaoImpl  implements GoodsDao{
 	
 	public ArrayList reviewList(ReviewBean reviewBean) throws Exception{
 		 ArrayList reviewList=(ArrayList)sqlSession.selectList("mapper.goods.reviewList",reviewBean);
-			return reviewList;
+		return reviewList;
 	}
 	public void insertReview(ReviewBean reviewBean) throws Exception{
 		sqlSession.insert("mapper.goods.insertReview",reviewBean);
@@ -66,8 +67,23 @@ public class GoodsDaoImpl  implements GoodsDao{
 		return searchWordList;
 	}
 	
+	//제품 상세 검색 메서드
+	public ArrayList detailSearch(HashMap condMap) throws Exception{
+		ArrayList detail_search_list=(ArrayList)sqlSession.selectList("mapper.goods.detailSearch",condMap);
+		return detail_search_list;
+			
+	}
+	
 	public ArrayList popupList() throws Exception{
 		ArrayList popupList=(ArrayList)sqlSession.selectList("mapper.goods.popupList");
 		return popupList;
+	}
+	public ArrayList userRecoList(String goods_id) throws Exception{
+		 ArrayList userRecoList=(ArrayList)sqlSession.selectList("mapper.goods.userRecoList",goods_id);
+			return userRecoList;
+	}
+	
+	public void addUserRecoGoods(UserRecoBean userRecoBean) throws Exception{
+		sqlSession.insert("mapper.goods.addUserRecoGoods",userRecoBean);
 	}
 }

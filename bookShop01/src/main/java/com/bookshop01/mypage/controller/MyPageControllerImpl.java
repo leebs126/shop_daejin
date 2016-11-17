@@ -1,9 +1,7 @@
 package com.bookshop01.mypage.controller;
 
 import java.io.PrintWriter;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -182,6 +180,45 @@ public class MyPageControllerImpl extends BaseController  implements MyPageContr
 		pw.close();
 	}	
 	
-	
+	//ajax로 메인 화면 설정 수정 요청 메서드
+	@RequestMapping(value="/modifyMainSetting.do" ,method = RequestMethod.POST)
+	public void modifyMainSetting(HttpServletRequest request, HttpServletResponse response)  throws Exception {
+		HttpSession session=request.getSession();
+		
+		String review_book_yn=request.getParameter("review_book");
+		String writer_book_yn=request.getParameter("writer_book");
+		String brand_book_yn=request.getParameter("brand_book");
+		String bestseller_yn=request.getParameter("bestseller");
+		String newbook_yn=request.getParameter("newbook");
+		String steadyseller_yn=request.getParameter("steadyseller");
+		String discount_book_yn=request.getParameter("discount_book");
+		
+		System.out.println(review_book_yn);
+		HashMap showMap=new HashMap();
+		showMap.put("review_book",review_book_yn);
+		showMap.put("writer_book",writer_book_yn);
+		showMap.put("brand_book",brand_book_yn);
+		showMap.put("bestseller",bestseller_yn);
+		showMap.put("newbook",newbook_yn);
+		showMap.put("steadyseller",steadyseller_yn);
+		showMap.put("discount_book",discount_book_yn);
+
+		
+		MemberBean member_info=(MemberBean)session.getAttribute("member_info");
+		String member_id=member_info.getMember_id();
+		showMap.put("member_id", member_id);
+		
+		myPageService.modifyMainSetting(showMap);
+		
+		PrintWriter writer=response.getWriter();
+		writer.println("update_success");
+		
+		
+		//System.out.println(review_book_yn);
+		
+	}	
 	
 }
+
+
+

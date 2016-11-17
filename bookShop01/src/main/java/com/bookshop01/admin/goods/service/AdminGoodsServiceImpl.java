@@ -46,8 +46,10 @@ public class AdminGoodsServiceImpl implements AdminGoodsService {
 		adminGoodsDao.addImageFile(fileList);
 	}
 	
-	public ArrayList<GoodsBean> listNewGoods(HashMap condMap) throws Exception{
-		return adminGoodsDao.listNewGoods(condMap);
+	
+	public ArrayList listNewGoods(HashMap condMap) throws Exception{
+		ArrayList new_goods_list=adminGoodsDao.listNewGoods(condMap);
+		return  new_goods_list;
 	}
 	
 	public GoodsBean goodsDetail(String goods_id) throws Exception {

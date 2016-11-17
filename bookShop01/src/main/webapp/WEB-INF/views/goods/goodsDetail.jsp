@@ -8,13 +8,13 @@
 <html>
 <head>
 <style>
-#layer {
+ #layer {
 	z-index: 2;
 	position: absolute;
-	top: 0px;
-	left: 0px;
+	top: 100px;
+	left: 100px;
 	width: 100%;
-}
+} 
 
 #popup {
 	z-index: 3;
@@ -24,6 +24,26 @@
 	top: 45%;
 	width: 300px;
 	height: 200px;
+	background-color: #ccffff;
+	border: 3px solid #87cb42;
+}
+
+ #layer_user_reco {
+	z-index: 2;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+}
+
+#popup_reco {
+	z-index: 3;
+	position: fixed;
+	text-align: center;
+	left: 25%;
+	top: 30%;
+	width: 500px;
+	height: 500px;
 	background-color: #ccffff;
 	border: 3px solid #87cb42;
 }
@@ -38,7 +58,7 @@
 		$.ajax({
 			type : "post",
 			async : false, //false인 경우 동기식으로 처리한다.
-			url : "http://localhost:8091/bookshop01/cart/addCart.do",
+			url : "http://localhost:8090/bookshop01/cart/addCart.do",
 			data : {
 				goods_id:goods_id
 				
@@ -240,6 +260,29 @@ function fn_review_modify(){
 	//$('#btn_review_reg').attr('style', 'visibility:hidden');
 	$('#btn_review_reg').attr('style', 'display:none');
 }
+
+function fn_open_user_reco_image(type,src){
+	//alert(src);
+	
+	if (type == 'open') {
+		// 팝업창을 연다.
+		$('#layer_user_reco').attr('style', 'visibility:visible');
+		var user_reco_img=document.getElementById("user_reco_img");
+		user_reco_img.src=src;
+		
+
+		// 페이지를 가리기위한 레이어 영역의 높이를 페이지 전체의 높이와 같게 한다.
+		$('#layer_user_reco').height(jQuery(document).height());
+	}
+	else if (type == 'close') {
+		// 팝업창을 닫는다.
+		$('#layer_user_reco').attr('style', 'visibility:hidden');
+	}
+}
+
+function fn_show_tbl_user_reco(){
+	$('#tbl_user_reco').attr('style', 'visibility:visible');
+}
 </script>
 </head>
 <body>
@@ -337,6 +380,7 @@ function fn_review_modify(){
 			<li><a href="#tab4">출판사서평</a></li>
 			<li><a href="#tab5">추천사</a></li>
 			<li><a href="#tab6">리뷰</a></li>
+			<li><a href="#tab7">독자추천도서</a></li>
 		</ul>
 		<div class="tab_container">
 			<div class="tab_content" id="tab1">
@@ -457,10 +501,71 @@ function fn_review_modify(){
                   </tr>
                 </table>
               </center>
-              					
 			</div>
 		</div>
 	</div>
+	<div class="tab_content" id="tab7">
+		 <TABLE id="list_view">
+		<TBODY>
+		  <c:forEach var="item" items="${goodsMap.userRecoList }"> 
+			<TR>
+				<TD class="goods_image">
+					<a href="javascript:fn_open_user_reco_image('open','${pageContext.request.contextPath}/fileDownload.do?image_type=user_reco_image&goods_id=${item.goods_id}&fileName=${item.reco_goods_imagename}')">
+						<img width="75" alt="" src="${pageContext.request.contextPath}/fileDownload.do?image_type=user_reco_image&goods_id=${item.goods_id}&fileName=${item.reco_goods_imagename}"></TD>
+					</a>
+				<TD class="goods_description">
+					<div class="writer_press">
+                      <h3>${item.reco_goods_title }</h3> <br>
+                       <h3>${item.reco_goods_content}</h3> 						      
+					</div>
+				</TD>
+			</TR>
+			</c:forEach>
+		</TBODY>
+		 <tr align=center>
+		   <td colspan="2"><input type="button" value="추천하기"  onClick="fn_show_tbl_user_reco()"/> </td>
+		 </tr>
+	</TABLE>
+	<DIV class="clear"></DIV>
+	</div>
+	
+<!-- 사용자 추천 도서 입력창 -->
+<center>
+<form action="${pageContext.request.contextPath}/goods/userRecoGoods.do" method="post"	enctype="multipart/form-data">
+    <table  style="visibility:hidden"  id="tbl_user_reco"  >
+     <tr>
+       <td>글제목</td> 
+       <td>
+          <input  type="text" size="50" name="reco_goods_title"  id="t_reco_goods_title" />
+       </td>
+     </tr>
+      <tr>
+       <td>글내용</td> 
+       <td>
+           <textarea cols="80" rows="10" name="reco_goods_content" id="t_reco_goods_content"  />추천도서평을 입력하세요!!
+           </textarea>                     
+       </td>
+     </tr>
+     <tr>
+       <td>파일첨부하기</td> 
+       <td>
+          <input  type="hidden" name="goods_id"  value="${goodsMap.goods.goods_id}" />
+          <input  type="file" size="30" name="reco_goods_imagename" id="t_reco_goods_imagename" />
+          
+       </td>
+     </tr>
+     
+     <tr  align="center">
+       <td> </td>  
+        <td>
+            <input type="submit" value="등록하기"  />
+            <input type="reset" value="취소하기"  />
+         </td>
+     </tr>
+   </table> 
+</form>   
+</center>	
+	
 	<div class="clear"></div>
 	<div id="layer" style="visibility: hidden">
 		<!-- visibility:hidden 으로 설정하여 해당 div안의 모든것들을 가려둔다. -->
@@ -479,7 +584,7 @@ function fn_review_modify(){
 		<div id="popup">
 			<!-- 팝업창 닫기 버튼 -->
 			<a href="javascript:" onClick="javascript:fn_display_detail('close', '.layer_review');"> 
-			<img src="${pageContext.request.contextPath}/image/close.png" id="close" />
+			<img src="${pageContext.request.contextPath}/resources/image/close.png" id="close" />
 			</a> <br />
 			 <font size="5" id="contents"><p id="message">글 상세 내용입니다.</p></font><br>
 			 
@@ -488,7 +593,25 @@ function fn_review_modify(){
 				<input  name="btn_cart_list" type="button"  value="닫기" onClick="fn_reviewDetail('close','.layer_review')">
 		</form>
 	<div>
-	</div>
+</div>
+
+<!--사용자 추천 이미지 확대용 팝업창  -->
+<div id="layer_user_reco" style="visibility: hidden">
+		<!-- visibility:hidden 으로 설정하여 해당 div안의 모든것들을 가려둔다. -->
+		<div id="popup_reco">
+			<!-- 팝업창 닫기 버튼 -->
+			<a href="javascript:" onClick="javascript:fn_open_user_reco_image('close');"> 
+			<img src="${pageContext.request.contextPath}/resources/image/close.png" id="close" />
+			</a><br/>
+			 <img  id="user_reco_img"  width="500" height="400" src="${pageContext.request.contextPath}/resources/image/test.jpg" />
+			 
+			 
+		<form action='${pageContext.request.contextPath}/cart/myCartMain.do'>				
+			<input  name="btn_cart_list" type="button"  value="닫기" onClick="fn_open_user_reco_image('close')">
+		</form>
+	<div>
+</div>
+
 </body>
 </html>
 <input type="hidden" name="isLogOn" id="isLogOn" value="${isLogOn}"/>

@@ -68,6 +68,11 @@ function hide(elementId){
    }
 }
 
+function fn_search_detail(){
+	var frmSearch=document.frmSearch;
+	frmSearch.action="/bookshop01/goods/detailSearchForm.do";
+	frmSearch.submit();
+}
 
 
 </script>
@@ -99,7 +104,8 @@ function hide(elementId){
 	<div id="search" >
 		<form name="frmSearch" action="${pageContext.request.contextPath}/goods/searchGoods.do" >
 			<input name="searchWord" class="main_input" type="text"  onKeyUp="keywordSearch()"> 
-			<input type="submit" name="search" class="btn1"  value="검 색" ><br>
+			<input type="submit" name="search" class="btn1"  value="검 색" >
+			<input type="button" name="search_detail" class="btn1"  value="상세검색" onClick="fn_search_detail()" ><br>
 			 <div>
 			 <marquee direction=left  scrolldelay="0"  width=240
 			                   onmouseover="stop();" onmouseout="start();">

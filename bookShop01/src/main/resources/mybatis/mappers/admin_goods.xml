@@ -135,18 +135,22 @@
 			          goods_writer,
 			          goods_publisher,
 			          goods_sales_price,
+			          fileName,
 			          to_char(goods_creDate,'YYYY-MM-DD')  as goods_creDate,
 			          goods_published_date
 			       from (
-			             select  goods_id,
-			             		 goods_title,
-			             		 goods_writer,
-			             		 goods_publisher,
-			             		 goods_sales_price,
-			             		 goods_creDate,
-			             		 goods_published_date
-			              from t_goods_info 
-			                where  to_char(goods_creDate,'YYYY-MM-DD')  between #{beginDate} and #{endDate}
+			             select  g.goods_id   as goods_id,
+    		                     g.goods_title  as goods_title ,
+     		                     g.goods_writer  as goods_writer,
+                                 g.goods_publisher  as goods_publisher,
+                                 g.goods_sales_price   as goods_sales_price,
+                                 g.goods_creDate  as goods_creDate,
+                                 i.fileName  as fileName,
+                                 g.goods_published_date   as goods_published_date
+                         from t_goods_info g ,t_goods_detail_image i
+                         where g.goods_id=i.goods_id   
+                           and  i.filetype='main_image'   
+			               and  to_char(goods_creDate,'YYYY-MM-DD')  between #{beginDate} and #{endDate}
 			               order by goods_creDate desc
 					    )
 				)							
@@ -300,6 +304,15 @@
 	    where 
 	    order_id=#{order_id}
 	
-	</update>		
+	</update>	
+<select id="goods_img_list" resultMap="imageResult"   parameterType="java.util.HashMap"  >
+	    <![CDATA[
+		    	select * from  t_goods_detail_image 
+		    	where  
+			    goods_id=#{goods_id}
+			    and filetype='main_image'
+    	]]>
+	</select>	
+	
 </mapper>
 

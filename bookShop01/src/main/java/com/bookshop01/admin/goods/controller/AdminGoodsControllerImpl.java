@@ -76,7 +76,7 @@ public class AdminGoodsControllerImpl extends BaseController  implements AdminGo
 		condMap.put("pageNum",curPageNum);
 		condMap.put("beginDate",beginDate);
 		condMap.put("endDate", endDate);
-		ArrayList<GoodsBean> new_goods_list=adminGoodsService.listNewGoods(condMap);
+		ArrayList new_goods_list=adminGoodsService.listNewGoods(condMap);
 		mav.addObject("new_goods_list", new_goods_list);
 		
 		String beginDate1[]=beginDate.split("-");

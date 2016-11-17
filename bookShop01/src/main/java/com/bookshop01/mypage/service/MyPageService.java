@@ -14,5 +14,7 @@ public interface MyPageService{
 	public MemberBean  modifyMyInfo(HashMap memberMap) throws Exception;
 	public void cancelOrder(String order_id) throws Exception;
 	public MemberBean myInfoDetail(String member_id) throws Exception;
-
+	
+	//메인 설정 변경 메서드
+	public void modifyMainSetting(HashMap showMap) throws Exception;
 }

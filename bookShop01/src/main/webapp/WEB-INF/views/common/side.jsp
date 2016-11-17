@@ -17,6 +17,7 @@
 			<li><a href="${pageContext.request.contextPath}/admin/member/adminMemberMain.do">회원관리</a></li>
 			<li><a href="#">배송관리</a></li>
 			<li><a href="#">게시판관리</a></li>
+			<li><a href="${pageContext.request.contextPath}/admin/popup/adminPopupMain.do"">팝업관리</a></li>
 		</ul>
 	</li>
 </c:when>

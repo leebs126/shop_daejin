@@ -143,6 +143,14 @@
 	 	  set delivery_state='cancel_order'
 	   where order_id=#{order_id}
 	</update>
+    <update id="modifyMainSetting" parameterType="java.util.HashMap">
+	   update t_shoping_main_setting
+		 	set  show_yn=#{show_yn}
+		  where
+	 	  member_id=#{member_id}      
+		  and goods_type=#{goods_type}			      
+	</update>		
+		
 		
 		
 </mapper>

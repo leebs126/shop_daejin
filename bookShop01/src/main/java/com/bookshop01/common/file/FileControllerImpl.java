@@ -22,7 +22,14 @@ public class FileControllerImpl  extends MultiActionController {
 			request.setCharacterEncoding("utf-8");
 			response.setContentType("text/html; charset=utf-8");
 			
-			String file_repo="C:\\file_repo";
+			String image_type=(String)request.getParameter("image_type");
+			String file_repo=null;
+			if(image_type!=null && image_type.equals("user_reco_image")){
+				file_repo="C:\\user_reco_image_repo"; 
+			}else{
+				file_repo="C:\\file_repo";	
+			}
+			
 			//자바 I/O를 이용해서 파일을 전송한다.
 			String fileName = (String)request.getParameter("fileName");
 			String goods_id = (String)request.getParameter("goods_id");

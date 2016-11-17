@@ -61,7 +61,16 @@
 	   <result property="popup_imagename" column="popup_imagename" />
 	   <result property="credate" column="credate" />
 	</resultMap>	
-		
+
+    <resultMap id="userRecoResult" type="com.bookshop01.goods.vo.UserRecoBean">
+	   <result property="user_reco_id" column="user_reco_id" />
+	   <result property="member_id" column="member_id" />
+	   <result property="reco_goods_title" column="reco_goods_title" />
+	   <result property="reco_goods_content" column="reco_goods_content" />
+	   <result property="reco_goods_imagename" column="reco_goods_imagename" />
+	   <result property="goods_id" column="goods_id" />
+	   <result property="credate" column="credate" />
+	</resultMap>		
 	
    
       <select id="listGoods" parameterType="String" resultMap="goodsResult"   >
@@ -163,6 +172,28 @@
    
 </select>
 
+<select id="detailSearch"  resultMap="goodsResult"   >
+   select * from t_goods_info
+   <where>
+     <if test="goods_title!='' and goods_title!=null" >
+       goods_title=#{goods_title}
+     </if>
+     <if test="goods_writer!='' and goods_writer!=null" >
+      and  goods_writer=#{goods_writer}
+     </if>
+     <if test="goods_publisher!='' and goods_publisher!=null" >
+      and  goods_publisher=#{goods_publisher}
+     </if>
+     
+     <if test="begin_pub_date!='' and begin_pub_date!=null 
+               and end_pub_date!='' and end_pub_date!=null" >
+      goods_published_date between begin_pub_date and end_pub_date
+     </if>
+   </where>
+   
+</select>
+
+
 <select id="popupList"  resultMap="popupResult"   >
    select * from  
             (select * from t_shoping_popup
@@ -170,7 +201,30 @@
    where rowNum=1
 </select>
 
+<select id="userRecoList" parameterType="String" resultMap="userRecoResult"   >
+  select * from t_shoping_user_reco
+  where 
+   goods_id=#{goods_id}
+  order by credate desc
+</select>
 
+<insert id="addUserRecoGoods" parameterType="userRecoBean" >
+    <selectKey resultType="String" keyProperty="user_reco_id" order="BEFORE">
+         select seq_user_reco_id.nextval from dual
+    </selectKey>
+	insert into t_shoping_user_reco(user_reco_id,
+	                                member_id,
+	                                goods_id,
+	                                reco_goods_title,
+	                                reco_goods_content,
+	                                reco_goods_imagename)
+	                       values(#{user_reco_id},
+	                              #{member_id},
+	                              #{goods_id},
+	                              #{reco_goods_title},
+	                              #{reco_goods_content},
+	                              #{reco_goods_imagename})        
+</insert>
 
 </mapper>
 

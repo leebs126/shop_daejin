@@ -23,4 +23,5 @@ public interface AdminGoodsDao {
 	public ArrayList<OrderBean>listOrderGoods(HashMap condMap) throws Exception;
 	public void modifyOrderGoods(HashMap hashOrder) throws Exception;
 	
+	public ArrayList goods_img_list(HashMap condMap) throws Exception;
 }

@@ -1,8 +1,18 @@
 package com.bookshop01.goods.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -10,7 +20,9 @@ import org.springframework.stereotype.Service;
 import com.bookshop01.goods.dao.GoodsDao;
 import com.bookshop01.goods.dao.GoodsDaoImpl;
 import com.bookshop01.goods.vo.GoodsBean;
+import com.bookshop01.goods.vo.ImageFileBean;
 import com.bookshop01.goods.vo.ReviewBean;
+import com.bookshop01.goods.vo.UserRecoBean;
 import com.bookshop01.member.vo.MemberBean;
 
 @Service("goodsService")
@@ -47,13 +59,13 @@ public class GoodsServiceImpl implements GoodsService{
 		goodsMap.put("steadyseller",goodsList);
 		
 		//검색 단어 테이블에서 자주 검색되는 단어를 가지고 온다.
-		//ArrayList searchWordList=goodsDao.searchWordList();
-		//goodsMap.put("searchWordList",searchWordList);
+		ArrayList searchWordList=goodsDao.searchWordList();
+		goodsMap.put("searchWordList",searchWordList);
 		
 		//팝업 정보 가지고 오기
-		/*ArrayList popupList=goodsDao.popupList();
+		ArrayList popupList=goodsDao.popupList();
 		goodsMap.put("popupList", popupList);
-		*/
+		
 		return goodsMap;
 	}
 	
@@ -81,10 +93,28 @@ public class GoodsServiceImpl implements GoodsService{
 		
 		ArrayList reviewList =goodsDao.reviewList(reviewBean);
 		goodsMap.put("reviewList", reviewList);
+		
+		//사용자 추천 도서 정보 가지고 오기
+		ArrayList userRecoList=goodsDao.userRecoList(goods_id);
+		goodsMap.put("userRecoList",userRecoList);
 		return goodsMap;
 	}
 	
 	public void addReview(ReviewBean reviewBean) throws Exception{
 		goodsDao.insertReview(reviewBean);
 	}
+	
+	//상세 검색 메서드
+		public ArrayList detailSearch(HashMap condMap) throws Exception{
+			ArrayList detail_search_list=goodsDao.detailSearch(condMap);
+			return detail_search_list;
+		}
+		
+	
+	//사용자  추천 도서 정보 저장 메서드 
+	public void addUserRecoGoods(UserRecoBean userRecoBean) throws Exception{
+		goodsDao.addUserRecoGoods(userRecoBean);
+	}
+	
+		
 }

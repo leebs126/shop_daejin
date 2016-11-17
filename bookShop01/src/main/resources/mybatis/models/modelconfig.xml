@@ -11,6 +11,8 @@
     <typeAlias type="com.bookshop01.mypage.vo.MyPageBean" alias="mypage" />
     <typeAlias type="com.bookshop01.goods.vo.ImageFileBean" alias="imageFileBean" />
     <typeAlias type="com.bookshop01.goods.vo.ReviewBean" alias="reviewBean" />
+    <typeAlias type="com.bookshop01.goods.vo.UserRecoBean" alias="userRecoBean" />
+    
   </typeAliases>
 </configuration>
 

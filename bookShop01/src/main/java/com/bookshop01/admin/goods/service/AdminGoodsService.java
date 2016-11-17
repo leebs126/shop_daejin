@@ -12,7 +12,7 @@ import com.bookshop01.order.vo.OrderBean;
 public interface AdminGoodsService {
 	public void  addNewGoods(HttpServletRequest request, HttpServletResponse response,HashMap goodsMap) throws Exception;
 	public void  addNewImage(ArrayList fileList) throws Exception;
-	public ArrayList<GoodsBean> listNewGoods(HashMap condMap) throws Exception;
+	public ArrayList listNewGoods(HashMap condMap) throws Exception;
 	public GoodsBean goodsDetail(String goods_id) throws Exception;
 	public ArrayList goodsImageFile(String goods_id) throws Exception;
 	public void modifyGoodsInfo(HashMap goodsMap) throws Exception;

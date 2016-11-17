@@ -157,9 +157,25 @@ function fn_send_mail(){
 		}
 	}); //end ajax	
 	
+}
+
+function fn_send_popup(){
+	var t_popup_title=document.getElementById("t_popup_title");
+	var t_popup_message=document.getElementById("t_popup_message");
+	var chk_popup_yn=document.frmGoods.chk_popup_yn;
 	
+	var _popup_title=t_popup_title.value;
+	var _popup_message=t_popup_message.value;
+	var _goods_id=null;
 	
+	for(var i=0;i<chk_popup_yn.length;i++){
+		if(chk_popup_yn[i].checked==true){
+			_goods_id=chk_popup_yn[i].value;
+		}
+	}
 	
+	alert(_goods_id);
+	//alert(_popup_message);
 	
 	
 }
@@ -292,8 +308,8 @@ function fn_send_mail(){
 			 <TR>       
 				<TD>
 				  <strong>${item.goods_id }</strong>
-				  <input  type="checkbox" name="chk_mail_yn" value="${item.goods_id}" />
-				  <input  type="hidden" value="${item.goods_fileName }"  name="h_goods_fileName"/>
+				  <input  type="checkbox" name="chk_popup_yn" value="${item.goods_id}" />
+				  <input  type="hidden" value="${item.goods_fileName}"  name="h_goods_fileName"/>
 				</TD>
 				<TD >
 				 <a href="${pageContext.request.contextPath}/admin/goods/modifyGoodsForm.do?goods_id=${item.goods_id}">
@@ -376,37 +392,35 @@ function fn_send_mail(){
 </form>	
 	<DIV class="clear"></DIV>
 	<br><br><br>
-<H3>제품 등록</H3>
-<DIV id="search">
-	<form action="${pageContext.request.contextPath}/admin/goods/addNewGoodsForm.do">
-		<input   type="submit" value="제품 등록하기">
-	</form>
-</DIV>
-<br><br><br><br><br><br>
-<H3>메일 보내기</H3>
-<DIV id="send_mail">
-	<table>
-	   <tr>
-	     <td>받는 사람</td>
-	     <td><input type="text" size="30"  id="t_mail_receiver" /> </td>
-	  </tr>
-	  <tr>
-	     <td>메일 제목</td>
-	     <td><input type="text" size="60"  id="t_mail_title"  /> </td>
-	  </tr>
-	  <tr>
-	   <td>메일 메시지</td>
-	   <td>
-          <textarea cols="50" rows="20"  id="t_mail_message" >메시지를 입력하세요!!!</textarea>	   
-	   </td>
-	  </tr>
-	  <tr align="center">
-	    <td colspan="2">
-	      <input  type="button" value="메일 보내기" onClick="fn_send_mail()" />
-	     </td>
-	  </tr>
-	</table>
-</DIV>
+<H3>팝업 등록</H3>
+<table>
+   <tr>
+   <td>팝업종류</td>
+   <td>
+	    <select name="popup_type">
+	      <option value="newbook">신간</option>
+	      <option value="event">이벤트</option>
+	      <option value="promotion">판촉</option>
+		</select>
+	</td>
+  </tr>
+  <tr>
+   <td>팝업제목 </td>
+   <td><input type="text"  size="20" id="t_popup_title" /> </td>
+  </tr>
+  <tr>
+   <td>팝업메시지</td>
+   <td> 
+     <textarea cols="50" rows="20" id="t_popup_message">메시지를 입력해 주세요!!!
+     </textarea>
+   </td>
+  </tr>
+  <tr align="center">
+   <td colspan="2">
+     <input type="button"  value="팝업등록"  onClick="fn_send_popup()"/> 
+    </td>
+  </tr>
+</table>
 
 </body>
 </html>
