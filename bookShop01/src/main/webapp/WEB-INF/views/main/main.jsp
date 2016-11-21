@@ -65,7 +65,9 @@
 		<LI><img width="775" height="145" src="${pageContext.request.contextPath}/resources/image/main_banner3.jpg"></LI>
 	</ul>
 </div>
-<div class="main_book">
+<c:choose>
+  <c:when test="${isLogOn==false or empty  isLogOn }">
+    <div class="main_book">
    <c:set  var="goods_count" value="0" />
 	<h3>베스트셀러</h3>
 	<c:forEach var="item" items="${goodsMap.bestseller }">
@@ -154,34 +156,205 @@
 <div id="ad_sub_banner">
 	<img width="770" height="117" src="${pageContext.request.contextPath}/resources/image/sub_banner1.jpg">
 </div>
-
-<c:if test="${isLogOn==true and !empty  goodsMap.writer_book  }">
-<div  class="main_book">
-<c:set  var="goods_count" value="0" />
-	<h3>작가별</h3>
-	<c:forEach var="item" items="${goodsMap.writer_book }" >
-	   <c:set  var="goods_count" value="${goods_count+1 }" />
-		<div class="book">
-		  <a href="${pageContext.request.contextPath}/goods/goodsDetail.do?goods_id=${item.goods_id }">
-	       <img class="link"  src="${pageContext.request.contextPath}/resources/image/1px.gif"> 
-	      </a>
-		 <img width="121" height="154" 
-				src="${pageContext.request.contextPath}/fileDownload.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
-		<div class="title">${item.goods_title }</div>
-           <div class="price">
-		    <fmt:formatNumber  value="${item.goods_price}" type="number" var="goods_price" />
-		       ${goods_price}원
-		  </div>
-	</div>
-	</c:forEach>
-</div>	
-   <c:if test="${goods_count==15  }">
-         <div class="book">
-           <font size=20> <a href="#">more</a></font>
-         </div>
-     </c:if>
-   <div class="clear"></div>   
-</c:if>   
+  </c:when>
+  <c:when test="${isLogOn==true}">
+      <c:set  var="loopCnt"  value="1"/>
+    <c:forEach begin="1" end="7" step="1"  >         
+    <c:choose>
+     <c:when test="${loopCnt==1 and !empty goodsMap.writer_book}"> 
+		<div  class="main_book">
+			<c:set  var="goods_count" value="0" />
+			<h3>작가별</h3>
+			<c:forEach var="item" items="${goodsMap.writer_book }" >
+			   <c:set  var="goods_count" value="${goods_count+1 }" />
+				<div class="book">
+				  <a href="${pageContext.request.contextPath}/goods/goodsDetail.do?goods_id=${item.goods_id }">
+			       <img class="link"  src="${pageContext.request.contextPath}/resources/image/1px.gif"> 
+			      </a>
+				 <img width="121" height="154" 
+						src="${pageContext.request.contextPath}/fileDownload.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+				<div class="title">${item.goods_title }</div>
+		           <div class="price">
+				    <fmt:formatNumber  value="${item.goods_price}" type="number" var="goods_price" />
+				       ${goods_price}원
+				  </div>
+			</div>
+			</c:forEach>
+		</div>	
+		      <c:if test="${goods_count==15  }">
+		         <div class="book">
+		           <font size=20> <a href="#">more</a></font>
+		         </div>
+		     </c:if>
+		     <div class="clear"></div>
+     </c:when>
+     <c:when test="${loopCnt==2 and!empty goodsMap.newbook}"> 
+		<div  class="main_book">
+			<c:set  var="goods_count" value="0" />
+			<h3>새로 나온 도서</h3>
+			<c:forEach var="item" items="${goodsMap.newbook}" >
+			   <c:set  var="goods_count" value="${goods_count+1 }" />
+				<div class="book">
+				  <a href="${pageContext.request.contextPath}/goods/goodsDetail.do?goods_id=${item.goods_id }">
+			       <img class="link"  src="${pageContext.request.contextPath}/resources/image/1px.gif"> 
+			      </a>
+				 <img width="121" height="154" 
+						src="${pageContext.request.contextPath}/fileDownload.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+				<div class="title">${item.goods_title }</div>
+		           <div class="price">
+				    <fmt:formatNumber  value="${item.goods_price}" type="number" var="goods_price" />
+				       ${goods_price}원
+				  </div>
+			</div>
+			</c:forEach>
+		</div>	
+		      <c:if test="${goods_count==15  }">
+		         <div class="book">
+		           <font size=20> <a href="#">more</a></font>
+		         </div>
+		     </c:if>
+		     <div class="clear"></div>
+     </c:when>
+     <c:when test="${loopCnt==3 and!empty goodsMap.bestseller}"> 
+		<div  class="main_book">
+			<c:set  var="goods_count" value="0" />
+			<h3>베스트셀러</h3>
+			<c:forEach var="item" items="${goodsMap.bestseller }" >
+			   <c:set  var="goods_count" value="${goods_count+1 }" />
+				<div class="book">
+				  <a href="${pageContext.request.contextPath}/goods/goodsDetail.do?goods_id=${item.goods_id }">
+			       <img class="link"  src="${pageContext.request.contextPath}/resources/image/1px.gif"> 
+			      </a>
+				 <img width="121" height="154" 
+						src="${pageContext.request.contextPath}/fileDownload.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+				<div class="title">${item.goods_title }</div>
+		           <div class="price">
+				    <fmt:formatNumber  value="${item.goods_price}" type="number" var="goods_price" />
+				       ${goods_price}원
+				  </div>
+			</div>
+			</c:forEach>
+		</div>	
+		      <c:if test="${goods_count==15  }">
+		         <div class="book">
+		           <font size=20> <a href="#">more</a></font>
+		         </div>
+		     </c:if>
+		     <div class="clear"></div>
+     </c:when>
+     <c:when test="${loopCnt==4 and !empty goodsMap.steadyseller}"> 
+		<div  class="main_book">
+			<c:set  var="goods_count" value="0" />
+			<h3>스테디셀러</h3>
+			<c:forEach var="item" items="${goodsMap.steadyseller }" >
+			   <c:set  var="goods_count" value="${goods_count+1 }" />
+				<div class="book">
+				  <a href="${pageContext.request.contextPath}/goods/goodsDetail.do?goods_id=${item.goods_id }">
+			       <img class="link"  src="${pageContext.request.contextPath}/resources/image/1px.gif"> 
+			      </a>
+				 <img width="121" height="154" 
+						src="${pageContext.request.contextPath}/fileDownload.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+				<div class="title">${item.goods_title }</div>
+		           <div class="price">
+				    <fmt:formatNumber  value="${item.goods_price}" type="number" var="goods_price" />
+				       ${goods_price}원
+				  </div>
+			</div>
+			</c:forEach>
+		</div>	
+		      <c:if test="${goods_count==15  }">
+		         <div class="book">
+		           <font size=20> <a href="#">more</a></font>
+		         </div>
+		     </c:if>
+		     <div class="clear"></div>
+     </c:when>          
+     <c:when test="${loopCnt==5 and!empty goodsMap.discount_book}"> 
+		<div  class="main_book">
+			<c:set  var="goods_count" value="0" />
+			<h3>할인되는 도서</h3>
+			<c:forEach var="item" items="${goodsMap.discount_book }" >
+			   <c:set  var="goods_count" value="${goods_count+1 }" />
+				<div class="book">
+				  <a href="${pageContext.request.contextPath}/goods/goodsDetail.do?goods_id=${item.goods_id }">
+			       <img class="link"  src="${pageContext.request.contextPath}/resources/image/1px.gif"> 
+			      </a>
+				 <img width="121" height="154" 
+						src="${pageContext.request.contextPath}/fileDownload.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+				<div class="title">${item.goods_title }</div>
+		           <div class="price">
+				    <fmt:formatNumber  value="${item.goods_price}" type="number" var="goods_price" />
+				       ${goods_price}원
+				  </div>
+			</div>
+			</c:forEach>
+		</div>	
+		      <c:if test="${goods_count==15  }">
+		         <div class="book">
+		           <font size=20> <a href="#">more</a></font>
+		         </div>
+		     </c:if>
+		     <div class="clear"></div>
+     </c:when> 
+     <c:when test="${loopCnt==6 and!empty goodsMap.review_book}"> 
+		<div  class="main_book">
+			<c:set  var="goods_count" value="0" />
+			<h3>리뷰많은 도서</h3>
+			<c:forEach var="item" items="${goodsMap.review_book }" >
+			   <c:set  var="goods_count" value="${goods_count+1 }" />
+				<div class="book">
+				  <a href="${pageContext.request.contextPath}/goods/goodsDetail.do?goods_id=${item.goods_id }">
+			       <img class="link"  src="${pageContext.request.contextPath}/resources/image/1px.gif"> 
+			      </a>
+				 <img width="121" height="154" 
+						src="${pageContext.request.contextPath}/fileDownload.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+				<div class="title">${item.goods_title }</div>
+		           <div class="price">
+				    <fmt:formatNumber  value="${item.goods_price}" type="number" var="goods_price" />
+				       ${goods_price}원
+				  </div>
+			</div>
+			</c:forEach>
+		</div>	
+		      <c:if test="${goods_count==15}">
+		         <div class="book">
+		           <font size=20> <a href="#">more</a></font>
+		         </div>
+		     </c:if>
+		     <div class="clear"></div>
+     </c:when>
+     <c:when test="${loopCnt==7 and!empty goodsMap.brand_book}"> 
+		<div  class="main_book">
+			<c:set  var="goods_count" value="0" />
+			<h3>브랜드별 도서</h3>
+			<c:forEach var="item" items="${goodsMap.brand_book }" >
+			   <c:set  var="goods_count" value="${goods_count+1 }" />
+				<div class="book">
+				  <a href="${pageContext.request.contextPath}/goods/goodsDetail.do?goods_id=${item.goods_id }">
+			       <img class="link"  src="${pageContext.request.contextPath}/resources/image/1px.gif"> 
+			      </a>
+				 <img width="121" height="154" 
+						src="${pageContext.request.contextPath}/fileDownload.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+				<div class="title">${item.goods_title }</div>
+		           <div class="price">
+				    <fmt:formatNumber  value="${item.goods_price}" type="number" var="goods_price" />
+				       ${goods_price}원
+				  </div>
+			</div>
+			</c:forEach>
+		</div>	
+		      <c:if test="${goods_count==15  }">
+		         <div class="book">
+		           <font size=20> <a href="#">more</a></font>
+		         </div>
+		     </c:if>
+		     <div class="clear"></div>
+     </c:when>      
+     </c:choose>
+     <c:set  var="loopCnt"  value="${loopCnt+1}"/>    
+    </c:forEach>  
+  </c:when>  
+</c:choose>
 
 <c:forEach var="item" items="${goodsMap.popupList}" >
 <div id="layer_newbook" style="visibility:visibile">

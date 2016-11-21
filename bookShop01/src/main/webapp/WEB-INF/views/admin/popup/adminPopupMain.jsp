@@ -163,19 +163,67 @@ function fn_send_popup(){
 	var t_popup_title=document.getElementById("t_popup_title");
 	var t_popup_message=document.getElementById("t_popup_message");
 	var chk_popup_yn=document.frmGoods.chk_popup_yn;
+	var h_goods_fileName=document.frmGoods.h_goods_fileName;
+	
+	
+	
+	//새로운 제품이나 기존 제품을 팝업 등록하기 위한 변수
+	var h_chk_goods_id=document.frmGoods.h_chk_goods_id;
+	var h_chk_state=document.frmGoods.h_chk_state;  //최초화면 표시에 표시하는 팝업등록 상태
 	
 	var _popup_title=t_popup_title.value;
 	var _popup_message=t_popup_message.value;
 	var _goods_id=null;
+	var _goods_fileName=null;
+	var _popup_type="newbook";
 	
-	for(var i=0;i<chk_popup_yn.length;i++){
-		if(chk_popup_yn[i].checked==true){
-			_goods_id=chk_popup_yn[i].value;
+	//alert(_goods_id);
+	
+	for(var i=0;i<h_chk_state.length;i++){
+		//checked 속성의 값을 문자열로 변화한 후 비교한다.
+		if(String(chk_popup_yn[i].checked)!=h_chk_state[i].value){
+			//alert(chk_popup_yn[i].checked+","+h_chk_state[i].value);	
+			_goods_id=h_chk_goods_id[i].value;
+			//alert(h_chk_goods_id[i].value);
+			_goods_fileName=h_goods_fileName[i].value;
 		}
 	}
 	
-	alert(_goods_id);
+	//alert(_goods_id);
+	
+	/* 
+	for(var i=0;i<chk_popup_yn.length;i++){
+		if(chk_popup_yn[i].checked==true){
+			_goods_id=chk_popup_yn[i].value;
+			_goods_fileName=h_goods_fileName[i].value;
+		}
+	} */
+	
+//	alert(_goods_id);
+//	alert(_goods_fileName);
 	//alert(_popup_message);
+     $.ajax({
+			type : "post",
+			async : false, //false인 경우 동기식으로 처리한다.
+			url : "http://localhost:8090/bookshop01/admin/popup/addPopup.do",
+			data : {
+				goods_id:_goods_id,
+				popup_type:_popup_type,
+				popup_title:_popup_title,
+				popup_message:_popup_message,
+				goods_fileName:_goods_fileName
+			},
+			success : function(data, textStatus) {
+				alert(data);	
+				
+			},
+			error : function(data, textStatus) {
+				alert("에러가 발생했습니다."+data);
+			},
+			complete : function(data, textStatus) {
+				//alert("작업을완료 했습니다");
+			}
+		}); //end ajax	
 	
 	
 }
@@ -296,7 +344,7 @@ function fn_send_popup(){
 				<td>출판일</td>
 			</tr>
    <c:choose>
-     <c:when test="${empty new_goods_list }">			
+     <c:when test="${empty popupMap.new_goods_list }">			
 			<TR>
 		       <TD colspan=8 class="fixed">
 				  <strong>조회된 상품이 없습니다.</strong>
@@ -304,11 +352,26 @@ function fn_send_popup(){
 		     </TR>
 	 </c:when>
 	 <c:otherwise>
-     <c:forEach var="item" items="${new_goods_list }">
+     <c:forEach var="item" items="${popupMap.new_goods_list}">
 			 <TR>       
 				<TD>
 				  <strong>${item.goods_id }</strong>
-				  <input  type="checkbox" name="chk_popup_yn" value="${item.goods_id}" />
+				    <c:set  var="is_contaned_goods_id"  value="${false }" />
+				  <c:forEach var="popup_item" items="${popupMap.popup_goods_list }">
+				       <c:if test="${item.goods_id==popup_item.goods_id }">
+				          <c:set var="is_contaned_goods_id" value="${true }"  />
+				       </c:if>
+				  </c:forEach>
+				    <input type="hidden" name="h_chk_goods_id" value="${item.goods_id}"  />
+				    <input type="hidden" name="h_chk_state" value="${is_contaned_goods_id}"  />
+				   <c:choose> 
+				        <c:when test="${is_contaned_goods_id==true}">
+				          <input  type="checkbox" name="chk_popup_yn" value="${item.goods_id}" checked />
+				        </c:when>
+				        <c:when test="${is_contaned_goods_id==false}">
+				          <input  type="checkbox" name="chk_popup_yn" value="${item.goods_id}" />
+				        </c:when>
+				   </c:choose>
 				  <input  type="hidden" value="${item.goods_fileName}"  name="h_goods_fileName"/>
 				</TD>
 				<TD >

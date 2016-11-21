@@ -69,10 +69,10 @@ function fn_modify_goods(goods_id, mod_type){
 	}
 
 	$.ajax({
-		type : "post",
-		async : false, //false인 경우 동기식으로 처리한다.
-		url : "http://localhost:8091/bookshop01/admin/goods/modifyGoodsInfo.do",
-		data : {
+		type:"post",
+		async:false, //false인 경우 동기식으로 처리한다.
+		url:"http://localhost:8090/bookshop01/admin/goods/modifyGoodsInfo.do",
+		data:{
 			goods_id:goods_id,
 			mod_type:mod_type,
 			value:value
@@ -256,6 +256,7 @@ function fn_moveToImagePage(goods_id){
 				  <option value="on_sale" >판매중</option>
 				  <option value="buy_out"  selected>품절</option>
 				  <option value="out_of_print" >절판</option>
+				  <option value="discount_book" >할인도서</option>
 				</select>
 				<input  type="hidden" name="h_goods_type" value="${goods.goods_type }"/>
 				</td>

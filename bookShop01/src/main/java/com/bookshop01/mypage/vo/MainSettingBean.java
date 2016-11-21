@@ -1,6 +1,6 @@
 package com.bookshop01.mypage.vo;
 
-public class MainSettinBean {
+public class MainSettingBean {
 	private String main_setting_id;
 	private String member_id;
 	private String goods_type;

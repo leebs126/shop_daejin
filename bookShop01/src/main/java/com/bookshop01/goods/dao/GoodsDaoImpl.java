@@ -78,8 +78,8 @@ public class GoodsDaoImpl  implements GoodsDao{
 		ArrayList popupList=(ArrayList)sqlSession.selectList("mapper.goods.popupList");
 		return popupList;
 	}
-	public ArrayList userRecoList(String goods_id) throws Exception{
-		 ArrayList userRecoList=(ArrayList)sqlSession.selectList("mapper.goods.userRecoList",goods_id);
+	public ArrayList userRecoList(HashMap recoMap) throws Exception{
+		 ArrayList userRecoList=(ArrayList)sqlSession.selectList("mapper.goods.userRecoList",recoMap);
 			return userRecoList;
 	}
 	

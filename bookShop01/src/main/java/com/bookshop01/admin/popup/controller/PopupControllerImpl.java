@@ -1,5 +1,6 @@
 package com.bookshop01.admin.popup.controller;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,13 +15,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bookshop01.admin.goods.service.AdminGoodsService;
+import com.bookshop01.admin.popup.service.PopupService;
+import com.bookshop01.admin.popup.vo.PopupBean;
 import com.bookshop01.common.controller.BaseController;
+import com.bookshop01.member.vo.MemberBean;
 
 @Controller("adminPopupController")
 @RequestMapping(value="/admin/popup")
 public class PopupControllerImpl extends BaseController implements PopupController {
 	@Autowired
 	AdminGoodsService adminGoodsService;
+	
+	@Autowired
+	PopupService popupServce;
 	
 	@RequestMapping(value="/adminPopupMain.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView adminGoodsMain(HttpServletRequest request, HttpServletResponse response)  throws Exception {
@@ -62,8 +69,14 @@ public class PopupControllerImpl extends BaseController implements PopupControll
 		condMap.put("pageNum",curPageNum);
 		condMap.put("beginDate",beginDate);
 		condMap.put("endDate", endDate);
+		
+		HashMap popupMap=new HashMap();
 		ArrayList new_goods_list=adminGoodsService.listNewGoods(condMap);
-		mav.addObject("new_goods_list", new_goods_list);
+		ArrayList popup_goods_list=popupServce.listPopupGoods(condMap);
+		
+		popupMap.put("new_goods_list",new_goods_list);
+		popupMap.put("popup_goods_list",popup_goods_list);
+		mav.addObject("popupMap", popupMap);
 		
 		String beginDate1[]=beginDate.split("-");
 		String endDate2[]=endDate.split("-");
@@ -77,6 +90,38 @@ public class PopupControllerImpl extends BaseController implements PopupControll
 		mav.addObject("chapter", curChapter);
 		mav.addObject("pageNum", curPageNum);
 		return mav;
+	}
+	
+	@RequestMapping(value="/addPopup.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public void addPopup(HttpServletRequest request, HttpServletResponse response)  throws Exception {
+		PrintWriter out=response.getWriter();
+		
+		String goods_id=request.getParameter("goods_id");
+		String popup_type=request.getParameter("popup_type");
+		String popup_message=request.getParameter("popup_message");
+		String popup_imagename=request.getParameter("goods_fileName");
+		
+		System.out.println(goods_id);
+		System.out.println(popup_type);
+		System.out.println(popup_message);
+		System.out.println(popup_imagename);
+		
+		//세션에서 회원 아이디를 얻는다.
+		HttpSession session=request.getSession();
+		MemberBean member_info=(MemberBean)session.getAttribute("member_info");
+		String member_id=member_info.getMember_id();
+		
+		PopupBean popupBean=new PopupBean();
+		popupBean.setGoods_id(goods_id);
+		popupBean.setPopup_type(popup_type);
+		popupBean.setPopup_message(popup_message);
+		popupBean.setPopup_imagename(popup_imagename);
+		popupBean.setMember_id(member_id);
+		
+		popupServce.addPopup(popupBean);
+		
+		out.print("팝업 정보를 추가했습니다.");
 		
 	}
+		
 }

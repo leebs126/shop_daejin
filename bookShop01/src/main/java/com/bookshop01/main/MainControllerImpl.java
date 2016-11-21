@@ -37,9 +37,11 @@ public class MainControllerImpl extends BaseController {
 		
 		//boolean isLogOn=(Boolean)session.getAttribute("isLogOn");
 		MemberBean memberBean=(MemberBean)session.getAttribute("member_info");
+		//로그인 상태와 최초 로그아웃 상태일 때 분리해서 메인 화면 정보 조회한다.
 		if(memberBean!=null){ //로그인 상태
 			goodsMap=goodsService.listGoods(memberBean);
 		}else{ //로그아웃 상태
+			session.setAttribute("isLogOn", false);
 			goodsMap=goodsService.listGoods();	
 		}
 		

@@ -86,26 +86,14 @@ public class MyPageDaoImpl implements MyPageDao{
 			sqlSession.update("mapper.mypage.modifyMainSetting",settingMap);
 		}
 		
-		/*Iterator ite=set.iterator();
-		
-		
-		
-		
-		
-		while(ite.hasNext()){
-			String key=(String)ite.next();
-			String value=(String)showMap.get(key);
-			
-			System.out.println("key="+key+",value="+value);
-			
-			HashMap settingMap=new HashMap();
-			settingMap.put("goods_type",key);
-			settingMap.put("show_yn",value);
-			settingMap.put("member_id",member_id);
-			sqlSession.update("mapper.mypage.modifyMainSetting",settingMap);
-		}
-		*/
 		
 	}
+	
+	//메인 설정 정보 조회 메서드
+	public ArrayList  myPageSettingList(String member_id) throws Exception{
+		ArrayList myPageSettingList =(ArrayList)sqlSession.selectList("mapper.mypage.myPageSettingList",member_id);
+		return myPageSettingList;
+	}
+				
 	
 }

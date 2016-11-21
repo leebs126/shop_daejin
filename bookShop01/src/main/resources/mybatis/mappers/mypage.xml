@@ -40,6 +40,13 @@
 		
 		<result property="goods_fileName" column="goods_fileName" />
 	</resultMap>
+	<resultMap id="settingResult" type="com.bookshop01.mypage.vo.MainSettingBean">
+	   <result property="main_setting_id" column="main_setting_id" />
+	   <result property="member_id" column="member_id" />
+	   <result property="goods_type" column="goods_type" />
+	   <result property="show_yn" column="show_yn" />
+	   <result property="credate" column="credate" />
+	</resultMap>
 
 	
 	 <select id="listMyOrderGoods" resultMap="orderGoodsResult"  parameterType="String"  >
@@ -149,7 +156,13 @@
 		  where
 	 	  member_id=#{member_id}      
 		  and goods_type=#{goods_type}			      
-	</update>		
+	</update>
+	
+	<select id="myPageSettingList" parameterType="String" resultMap="settingResult">
+	   select * from t_shoping_main_setting
+	   where
+	   member_id=#{member_id}
+	</select>		
 		
 		
 		

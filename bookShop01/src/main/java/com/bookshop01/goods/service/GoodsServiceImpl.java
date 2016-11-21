@@ -30,13 +30,16 @@ public class GoodsServiceImpl implements GoodsService{
 	@Autowired
 	GoodsDao goodsDao;
 	
-	//로그인 시 조회 기능
+	//로그인 메인 화면에 표시된 제품 정보와 팝업 정보 조회 기능
 	public HashMap<String,ArrayList<GoodsBean>> listGoods(MemberBean memberBean) throws Exception {
 		String member_id=memberBean.getMember_id();
 		
 		ArrayList settingList=goodsDao.mainSettingList(member_id);
 		
 		HashMap<String,ArrayList<GoodsBean>> goodsMap=new HashMap<String,ArrayList<GoodsBean>>();
+		//먼저 t_shoping_main_setting테이블에서 7개의  제품 타입을 얻어와서
+		//각 제품 타입 별로 t_goods_info에서제품을 각가 조회한 후 
+		//ArrayList에 각각 저장한 후 hashMap에 다시 저장한다.
 		for(int i=0;i<settingList.size();i++){
 			GoodsBean goodsBean=(GoodsBean)settingList.get(i);
 			String goods_type=(String)goodsBean.getGoods_type();
@@ -44,10 +47,14 @@ public class GoodsServiceImpl implements GoodsService{
 			goodsMap.put(goods_type,goodsList);
 		}
 		
+		//팝업 정보 가지고 오기
+		ArrayList popupList=goodsDao.popupList();
+		goodsMap.put("popupList", popupList);
+		
 		return goodsMap;
 	}
 	
-	//로그아웃시 조회 기능
+	//메인 화면에 표시된 제품 정보와 팝업 정보 조회 기능
 	public HashMap<String,ArrayList<GoodsBean>> listGoods() throws Exception {
 		HashMap<String,ArrayList<GoodsBean>> goodsMap=new HashMap<String,ArrayList<GoodsBean>>();
 		ArrayList goodsList=goodsDao.listGoods("bestseller");
@@ -95,7 +102,11 @@ public class GoodsServiceImpl implements GoodsService{
 		goodsMap.put("reviewList", reviewList);
 		
 		//사용자 추천 도서 정보 가지고 오기
-		ArrayList userRecoList=goodsDao.userRecoList(goods_id);
+		HashMap recoMap=new HashMap();  //페이징 기능을 위해서   hashMap에 chapter와 pageNum을 저장해서 넘긴다.
+		recoMap.put("chapter",chapter);
+		recoMap.put("pageNum",pageNum);
+		recoMap.put("goods_id",goods_id);
+		ArrayList userRecoList=goodsDao.userRecoList(recoMap);
 		goodsMap.put("userRecoList",userRecoList);
 		return goodsMap;
 	}

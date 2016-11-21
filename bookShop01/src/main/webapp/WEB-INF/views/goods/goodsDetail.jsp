@@ -507,23 +507,62 @@ function fn_show_tbl_user_reco(){
 	<div class="tab_content" id="tab7">
 		 <TABLE id="list_view">
 		<TBODY>
-		  <c:forEach var="item" items="${goodsMap.userRecoList }"> 
+		  <c:forEach var="item" items="${goodsMap.userRecoList }"  varStatus="cnt"> 
 			<TR>
+				<TD>
+				   <h2> ${(pageNum-1)*10+cnt.count} </h2>
+				</TD>
+				
 				<TD class="goods_image">
 					<a href="javascript:fn_open_user_reco_image('open','${pageContext.request.contextPath}/fileDownload.do?image_type=user_reco_image&goods_id=${item.goods_id}&fileName=${item.reco_goods_imagename}')">
-						<img width="75" alt="" src="${pageContext.request.contextPath}/fileDownload.do?image_type=user_reco_image&goods_id=${item.goods_id}&fileName=${item.reco_goods_imagename}"></TD>
-					</a>
-				<TD class="goods_description">
-					<div class="writer_press">
-                      <h3>${item.reco_goods_title }</h3> <br>
-                       <h3>${item.reco_goods_content}</h3> 						      
+						<img width="75" alt="" src="${pageContext.request.contextPath}/fileDownload.do?image_type=user_reco_image&goods_id=${item.goods_id}&fileName=${item.reco_goods_imagename}">
+                    </a>						
+				</TD>
+				<TD  class="goods_image">
+				   <div class="writer_press">
+                      <h2>${item.member_id}</h2> <br>
 					</div>
 				</TD>
-			</TR>
+					
+				<TD class="goods_description">
+					<div class="writer_press">
+                      <h2>${item.reco_goods_title }</h2> <br>
+                       <h2>${item.reco_goods_content}</h2> 						      
+					</div>
+				</TD>
+				<TD class="goods_description">
+					<div class="writer_press">
+                      <h2>${item.credate}</h2> <br>
+					</div>
+				</TD>
+			</TR>			
 			</c:forEach>
+			  <c:set  var="pre_chapter" value="${chapter-1 }" />
+				   <tr align="center">
+				       <td colspan="5">
+				          <c:if test="${chapter>1}">
+		                       <font size="4"> <a href="${pageContext.request.contextPath}/goods/goodsDetail.do?goods_id=${goodsMap.goods.goods_id }&chapter=${chapter-1}&pageNum=${pageNum-(chapter-pre_chapter)*10 }">&nbsp;pre &nbsp;</a></font>
+		                   </c:if>
+				         <c:forEach   var="page" begin="${(chapter-1)*10+1}" end="${(chapter-1)*10+10}" step="1" >
+	                        <c:choose>
+	                           <c:when  test="${page==pageNum}" > 
+			                       <font size="6">
+			                          <a href="${pageContext.request.contextPath}/goods/goodsDetail.do?goods_id=${goodsMap.goods.goods_id }&chapter=${chapter}&pageNum=${page}">${page} </a>  
+			                       </font>
+	                           </c:when>
+	                           <c:otherwise>
+		                             <font size="4">
+			                          <a href="${pageContext.request.contextPath}/goods/goodsDetail.do?goods_id=${goodsMap.goods.goods_id }&chapter=${chapter}&pageNum=${page}">${page} </a>  
+			                       </font>
+	                           </c:otherwise>
+	                       </c:choose>
+	                     </c:forEach> 
+	                       <font size="4"><a href="${pageContext.request.contextPath}/goods/goodsDetail.do?goods_id=${goodsMap.goods.goods_id }&chapter=${chapter+1}&pageNum=${chapter*10+1}">next</a> </font>
+				       </td>
+				     </tr>
 		</TBODY>
 		 <tr align=center>
-		   <td colspan="2"><input type="button" value="추천하기"  onClick="fn_show_tbl_user_reco()"/> </td>
+		   <td colspan="5"><input type="button" value="추천하기"  onClick="fn_show_tbl_user_reco()"/> </td>
 		 </tr>
 	</TABLE>
 	<DIV class="clear"></DIV>

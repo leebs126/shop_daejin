@@ -18,4 +18,8 @@ public interface MyPageDao {
 	//메인 설정 화면 변경 메서드
 	public void modifyMainSetting(HashMap showMap) throws Exception;
 	
+	//메인 설정 정보 조회 메서드
+	public ArrayList  myPageSettingList(String member_id) throws Exception;
+		
+	
 }

@@ -52,7 +52,7 @@
 	   <result property="credate" column="credate" />
 	</resultMap>
 	
-	 <resultMap id="popupResult" type="com.bookshop01.goods.vo.PopupBean">
+	 <resultMap id="popupResult" type="com.bookshop01.admin.popup.vo.PopupBean">
 	   <result property="popup_id" column="popup_id" />
 	   <result property="goods_id" column="goods_id" />
 	   <result property="member_id" column="member_id" />
@@ -202,10 +202,22 @@
 </select>
 
 <select id="userRecoList" parameterType="String" resultMap="userRecoResult"   >
-  select * from t_shoping_user_reco
-  where 
-   goods_id=#{goods_id}
-  order by credate desc
+    select * from 
+              (select rowNum as recNum,
+				           user_reco_id,
+				           member_id,
+				           goods_id,
+				           reco_goods_title,
+				           reco_goods_content,
+				           reco_goods_imagename,
+				           credate         
+				          from (select * from t_shoping_user_reco
+				                          where
+				                          goods_id=#{goods_id}
+				                          order by credate desc))  
+   where
+   recNum between (#{chapter}-1)*100+ (#{pageNum}-1)*10+1 and (#{chapter}-1)*100+(#{pageNum})*10
+  
 </select>
 
 <insert id="addUserRecoGoods" parameterType="userRecoBean" >

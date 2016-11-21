@@ -218,6 +218,21 @@ public class MyPageControllerImpl extends BaseController  implements MyPageContr
 		
 	}	
 	
+	//메인 세팅 페이지 요청 시 호출되는 메서드
+		@RequestMapping(value="/myMainSettingForm.do" ,method=RequestMethod.GET)
+		public ModelAndView myMainSettingForm(HttpServletRequest request, HttpServletResponse response)  throws Exception {
+			String fileName=getFileName(request);
+			ModelAndView mav = new ModelAndView(fileName);
+			HttpSession session=request.getSession();
+			
+			MemberBean member_info=(MemberBean)session.getAttribute("member_info");
+			String member_id=member_info.getMember_id();
+			
+			ArrayList myMainSettingList = myPageService.myPageSettingList(member_id);
+			mav.addObject("myMainSettingList",myMainSettingList);
+			return mav;
+		}		
+	
 }
 
 

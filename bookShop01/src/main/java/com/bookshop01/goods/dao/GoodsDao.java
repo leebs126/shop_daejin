@@ -25,7 +25,7 @@ public interface GoodsDao {
 	
 	
 	//사용자 추천 도서 내용 가지고 오는 메서드
-	public ArrayList userRecoList(String goods_id) throws Exception;
+	public ArrayList userRecoList(HashMap recoMap) throws Exception;
 	
 	public void addUserRecoGoods(UserRecoBean userRecoBean) throws Exception;
 }

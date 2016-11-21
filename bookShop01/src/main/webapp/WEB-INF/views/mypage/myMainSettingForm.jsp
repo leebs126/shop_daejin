@@ -1,16 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"
+	isELIgnored="false"%>  
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>¸ŞÀÎÆäÀÌÁö ¼³Á¤ ÇÏ±â</title>
+<title>ë©”ì¸í˜ì´ì§€ ì„¤ì • í•˜ê¸°</title>
 <script type="text/javascript">
 function fn_modify_main_setting(){
 	//alert("aaa");
-	//Ã¼Å©µÈ Ç×¸ñÀ» °¡Áö°í ¿Â´Ù.
+	//ì²´í¬ëœ í•­ëª©ì„ ê°€ì§€ê³  ì˜¨ë‹¤.
 	var chk_review_book=document.getElementById("chk_review_book");
-	//alert(chk_review_book.checked);
+	alert(chk_review_book.checked);
 	var chk_brand_book=document.getElementById("chk_brand_book");
 	var chk_writer_book=document.getElementById("chk_writer_book");
 	var chk_bestseller=document.getElementById("chk_bestseller");
@@ -55,10 +57,10 @@ function fn_modify_main_setting(){
 	
     alert(discount_book_yn);
 	
-	//ajax·Î ¼³Á¤°ªÀ» ¼­¹ö·Î Àü¼ÛÇÑ´Ù.
+	//ajaxë¡œ ì„¤ì •ê°’ì„ ì„œë²„ë¡œ ì „ì†¡í•œë‹¤.
 	$.ajax({
 			type:"post",
-			async : false, //falseÀÎ °æ¿ì µ¿±â½ÄÀ¸·Î Ã³¸®ÇÑ´Ù.
+			async : false, //falseì¸ ê²½ìš° ë™ê¸°ì‹ìœ¼ë¡œ ì²˜ë¦¬í•œë‹¤.
 			url : "http://localhost:8090/bookshop01/mypage/modifyMainSetting.do",
 			data : {
 				review_book:review_book_yn,
@@ -72,13 +74,13 @@ function fn_modify_main_setting(){
 				
 			},
 			success : function(data, textStatus) {
-				alert("¼³Á¤ÀÌ ¼öÁ¤µÇ¾ú½À´Ï´Ù!!!");	
+				alert("ì„¤ì •ì´ ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤!!!");	
 			},
 			error : function(data, textStatus) {
-				alert("¿¡·¯°¡ ¹ß»ıÇß½À´Ï´Ù."+data);
+				alert("ì—ëŸ¬ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤."+data);
 			},
 			complete : function(data, textStatus) {
-				//alert("ÀÛ¾÷À»¿Ï·á Çß½À´Ï´Ù");
+				//alert("ì‘ì—…ì„ì™„ë£Œ í–ˆìŠµë‹ˆë‹¤");
 			}
 		}); //end ajax	
 	
@@ -90,40 +92,152 @@ function fn_modify_main_setting(){
 </head>
 <body>
 <center>
- <h1>¸ŞÀÎÈ­¸é ¼³Á¤ÇÏ±â</h1>
+ <h1>ë©”ì¸í™”ë©´ ì„¤ì •í•˜ê¸°</h1>
 <table border="0" class="list_view" >
-    <tr>
-      <td width=60%>ÈÄ±â ¸¹Àº µµ¼­ </td>
-      <td width=40%><input type="checkbox" id="chk_review_book" /> </td>
-    </tr>
-    <tr>
-      <td>ºê·£µåº° </td>
+<c:forEach var="item" items="${myMainSettingList }">
+   <c:choose>
+     <c:when test="${item.goods_type=='bestseller' }">
+        <c:choose>
+          <c:when test="${item.show_yn=='y' }">
+             <tr>
+               <td width=60%>ë² ìŠ¤íŠ¸ì…€ëŸ¬</td>
+               <td width=40%><input type="checkbox" id="chk_bestseller"  checked/> </td>
+             </tr>
+          </c:when>   
+          <c:otherwise>
+              <tr>
+               <td width=60%>ë² ìŠ¤íŠ¸ì…€ëŸ¬</td>
+               <td width=40%><input type="checkbox" id="chk_bestseller" /> </td>
+             </tr>
+          </c:otherwise>      
+      </c:choose>
+    </c:when>
+    <c:when test="${item.goods_type=='brand_book' }">
+        <c:choose>
+          <c:when test="${item.show_yn=='y' }">
+             <tr>
+               <td width=60%>ë¸ŒëœíŠ¸ë³„</td>
+               <td width=40%><input type="checkbox" id="chk_brand_book"  checked/> </td>
+             </tr>
+          </c:when>   
+          <c:otherwise>
+              <tr>
+               <td width=60%>ë¸ŒëœíŠ¸ë³„</td>
+               <td width=40%><input type="checkbox" id="chk_brand_book" /> </td>
+             </tr>
+          </c:otherwise>      
+      </c:choose>
+    </c:when>
+    <c:when test="${item.goods_type=='writer_book' }">
+        <c:choose>
+          <c:when test="${item.show_yn=='y' }">
+             <tr>
+               <td width=60%>ì‘ê°€ë³„</td>
+               <td width=40%><input type="checkbox" id="chk_writer_book"  checked/> </td>
+             </tr>
+          </c:when>   
+          <c:otherwise>
+              <tr>
+               <td width=60%>ì‘ê°€ë³„</td>
+               <td width=40%><input type="checkbox" id="chk_writer_book" /> </td>
+             </tr>
+          </c:otherwise>      
+      </c:choose>
+    </c:when>
+    <c:when test="${item.goods_type=='newbook' }">
+        <c:choose>
+          <c:when test="${item.show_yn=='y' }">
+             <tr>
+               <td width=60%>ìƒˆë¡œë‚˜ì˜¨ ë„ì„œ</td>
+               <td width=40%><input type="checkbox" id="chk_newbook"  checked/> </td>
+             </tr>
+          </c:when>   
+          <c:otherwise>
+              <tr>
+               <td width=60%>ìƒˆë¡œë‚˜ì˜¨ ë„ì„œ</td>
+               <td width=40%><input type="checkbox" id="chk_newbook" /> </td>
+             </tr>
+          </c:otherwise>      
+      </c:choose>
+    </c:when>
+    <c:when test="${item.goods_type=='steadyseller' }">
+        <c:choose>
+          <c:when test="${item.show_yn=='y' }">
+             <tr>
+               <td width=60%>ìŠ¤í…Œë””ì…€ëŸ¬</td>
+               <td width=40%><input type="checkbox" id="chk_steadyseller"  checked/> </td>
+             </tr>
+          </c:when>   
+          <c:otherwise>
+              <tr>
+               <td width=60%>ìŠ¤í…Œë””ì…€ëŸ¬</td>
+               <td width=40%><input type="checkbox" id="chk_steadyseller" /> </td>
+             </tr>
+          </c:otherwise>      
+      </c:choose>
+    </c:when>
+    <c:when test="${item.goods_type=='discount_book' }">
+        <c:choose>
+          <c:when test="${item.show_yn=='y' }">
+             <tr>
+               <td width=60%>í• ì¸ë˜ëŠ” ë„ì„œ</td>
+               <td width=40%><input type="checkbox" id="chk_discount_book"  checked/> </td>
+             </tr>
+          </c:when>   
+          <c:otherwise>
+              <tr>
+               <td width=60%>í• ì¸ë˜ëŠ” ë„ì„œ</td>
+               <td width=40%><input type="checkbox" id="chk_discount_book" /> </td>
+             </tr>
+          </c:otherwise>      
+      </c:choose>
+    </c:when>
+    <c:when test="${item.goods_type=='review_book' }">
+        <c:choose>
+          <c:when test="${item.show_yn=='y' }">
+             <tr>
+               <td width=60%>ëŒ“ê¸€ë§ì€ ë„ì„œ</td>
+               <td width=40%><input type="checkbox" id="chk_review_book"  checked/> </td>
+             </tr>
+          </c:when>   
+          <c:otherwise>
+              <tr>
+               <td width=60%>ëŒ“ê¸€ë§ì€ ë„ì„œ</td>
+               <td width=40%><input type="checkbox" id="chk_review_book" /> </td>
+             </tr>
+          </c:otherwise>      
+      </c:choose>
+    </c:when>
+    </c:choose>
+</c:forEach>    
+    <!-- <tr>
+      <td>ë¸Œëœë“œë³„ </td>
       <td><input type="checkbox" id="chk_brand_book" /> </td>
     </tr>
     <tr>
-      <td>ÀÛ°¡º°</td>
+      <td>ì‘ê°€ë³„</td>
       <td><input type="checkbox" id="chk_writer_book" /> </td>
     </tr>
     <tr>
-      <td>º£½ºÆ®¼¿·¯</td>
+      <td>ë² ìŠ¤íŠ¸ì…€ëŸ¬</td>
       <td><input type="checkbox" id="chk_bestseller" /> </td>
     </tr>
     <tr>
-      <td>»õ·Î ³ª¿Â µµ¼­</td>
+      <td>ìƒˆë¡œ ë‚˜ì˜¨ ë„ì„œ</td>
       <td><input type="checkbox" id="chk_newbook" /> </td>
     </tr>
     <tr>
-      <td>½ºÅ×µğ¼¿·¯</td>
+      <td>ìŠ¤í…Œë””ì…€ëŸ¬</td>
       <td><input type="checkbox" id="chk_steadyseller" /> </td>
     </tr>
     <tr>
-      <td>ÇÒÀÎµÇ´Â µµ¼­</td>
+      <td>í• ì¸ë˜ëŠ” ë„ì„œ</td>
       <td><input type="checkbox" id="chk_discount_book" /> </td>
-    </tr>
+    </tr> -->
     <tr align=center>
       <td colspan=2>
-        <input  type="button" value="º¯°æÇÏ±â"  onClick="fn_modify_main_setting()"/>
-        <input  type="button" value="Ãë¼Ò" />
+        <input  type="button" value="ë³€ê²½í•˜ê¸°"  onClick="fn_modify_main_setting()"/>
+        <input  type="button" value="ì·¨ì†Œ" />
       </td>
     </tr>
 </table>

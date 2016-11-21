@@ -1,4 +1,4 @@
-package com.bookshop01.goods.vo;
+package com.bookshop01.admin.popup.vo;
 
 public class PopupBean {
 	private String popup_id;

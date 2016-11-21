@@ -42,7 +42,15 @@ public class MyPageServiceImpl  implements MyPageService{
 	}
 	
 	//메인 설정 변경 메서드
-		public void modifyMainSetting(HashMap showMap) throws Exception{
-			myPageDao.modifyMainSetting(showMap);
-		}
+	public void modifyMainSetting(HashMap showMap) throws Exception{
+		myPageDao.modifyMainSetting(showMap);
+	}
+	
+
+	//메인 설정 정보 조회 메서드
+	public ArrayList  myPageSettingList(String member_id) throws Exception{
+		ArrayList myPageSettingList=myPageDao.myPageSettingList(member_id);
+		return myPageSettingList;
+	}
+	
 }

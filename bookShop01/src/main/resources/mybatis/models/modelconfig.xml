@@ -12,7 +12,7 @@
     <typeAlias type="com.bookshop01.goods.vo.ImageFileBean" alias="imageFileBean" />
     <typeAlias type="com.bookshop01.goods.vo.ReviewBean" alias="reviewBean" />
     <typeAlias type="com.bookshop01.goods.vo.UserRecoBean" alias="userRecoBean" />
-    
+    <typeAlias type="com.bookshop01.admin.popup.vo.PopupBean" alias="popupBean" />
   </typeAliases>
 </configuration>
 
