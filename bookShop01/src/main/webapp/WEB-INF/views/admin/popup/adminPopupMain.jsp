@@ -182,10 +182,14 @@ function fn_send_popup(){
 	for(var i=0;i<h_chk_state.length;i++){
 		//checked 속성의 값을 문자열로 변화한 후 비교한다.
 		if(String(chk_popup_yn[i].checked)!=h_chk_state[i].value){
-			//alert(chk_popup_yn[i].checked+","+h_chk_state[i].value);	
-			_goods_id=h_chk_goods_id[i].value;
-			//alert(h_chk_goods_id[i].value);
-			_goods_fileName=h_goods_fileName[i].value;
+			//alert(chk_popup_yn[i].checked+","+h_chk_state[i].value);
+			if(chk_popup_yn[i].checked==true){
+				_goods_id=h_chk_goods_id[i].value;
+				_goods_fileName=h_goods_fileName[i].value;	
+			}else{
+				//체크 해제한 제품의 팝업기능을 해제한다.
+			}
+			
 		}
 	}
 	
@@ -226,6 +230,49 @@ function fn_send_popup(){
 		}); //end ajax	
 	
 	
+}
+
+function fn_delete_popup(){
+	var chk_popup_yn=document.frmGoods.chk_popup_yn;
+	var h_chk_goods_id=document.frmGoods.h_chk_goods_id;
+	var h_chk_state=document.frmGoods.h_chk_state;  //최초화면 표시에 표시하는 팝업등록 상태
+	var _goods_id=null;
+	
+	for(var i=0;i<h_chk_state.length;i++){
+		//checked 속성의 값을 문자열로 변화한 후 비교한다.
+		if(String(chk_popup_yn[i].checked)!=h_chk_state[i].value){
+			if(chk_popup_yn[i].checked==false){
+				_goods_id=h_chk_goods_id[i].value;
+			}
+		}
+	}
+	
+	 $.ajax({
+			type : "post",
+			async : false, //false인 경우 동기식으로 처리한다.
+			url : "http://localhost:8090/bookshop01/admin/popup/deletePopup.do",
+			data : {
+				goods_id:_goods_id
+			},
+			success : function(data, textStatus) {
+				alert(data);	
+				
+			},
+			error : function(data, textStatus) {
+				alert("에러가 발생했습니다."+data);
+			},
+			complete : function(data, textStatus) {
+				//alert("작업을완료 했습니다");
+			}
+		}); //end ajax	
+	
+}
+
+function fn_change_color(id_tr){
+	alert(id_tr);
+	var _tr=document.getElementById(id_tr);
+	_tr.style.background="#ccff66";
+	//style="background:#33ff00"
 }
 </script>
 </head>
@@ -353,7 +400,7 @@ function fn_send_popup(){
 	 </c:when>
 	 <c:otherwise>
      <c:forEach var="item" items="${popupMap.new_goods_list}">
-			 <TR>       
+			 <TR  id="tr_${item.goods_id }">       
 				<TD>
 				  <strong>${item.goods_id }</strong>
 				    <c:set  var="is_contaned_goods_id"  value="${false }" />
@@ -366,10 +413,10 @@ function fn_send_popup(){
 				    <input type="hidden" name="h_chk_state" value="${is_contaned_goods_id}"  />
 				   <c:choose> 
 				        <c:when test="${is_contaned_goods_id==true}">
-				          <input  type="checkbox" name="chk_popup_yn" value="${item.goods_id}" checked />
+				          <input  type="checkbox" name="chk_popup_yn" value="${item.goods_id}" checked  onClick="fn_change_color('tr_${item.goods_id }')"/>
 				        </c:when>
 				        <c:when test="${is_contaned_goods_id==false}">
-				          <input  type="checkbox" name="chk_popup_yn" value="${item.goods_id}" />
+				          <input  type="checkbox" name="chk_popup_yn" value="${item.goods_id}"  onClick="fn_change_color('tr_${item.goods_id }')" />
 				        </c:when>
 				   </c:choose>
 				  <input  type="hidden" value="${item.goods_fileName}"  name="h_goods_fileName"/>
@@ -481,6 +528,7 @@ function fn_send_popup(){
   <tr align="center">
    <td colspan="2">
      <input type="button"  value="팝업등록"  onClick="fn_send_popup()"/> 
+     <input type="button"  value="팝업해제"  onClick="fn_delete_popup()"/>
     </td>
   </tr>
 </table>

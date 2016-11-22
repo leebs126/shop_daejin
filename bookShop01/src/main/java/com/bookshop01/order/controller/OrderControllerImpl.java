@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bookshop01.cart.service.CartService;
 import com.bookshop01.cart.vo.CartBean;
 import com.bookshop01.common.controller.BaseController;
+import com.bookshop01.common.mail.controller.MailService;
 import com.bookshop01.goods.vo.GoodsBean;
 import com.bookshop01.member.vo.MemberBean;
 import com.bookshop01.order.service.OrderService;
@@ -26,6 +27,9 @@ import com.bookshop01.order.vo.OrderBean;
 public class OrderControllerImpl extends BaseController implements OrderController {
 	@Autowired
 	OrderService orderService;
+	
+	@Autowired
+    private MailService mailService;
 	
 	@RequestMapping(value="/orderEachGoods.do" ,method = RequestMethod.POST)
 	public ModelAndView myOrderGoods(HttpServletRequest request, HttpServletResponse response)  throws Exception{
@@ -120,8 +124,10 @@ public class OrderControllerImpl extends BaseController implements OrderControll
 		MemberBean memberBean=(MemberBean)session.getAttribute("member_info");
 		String member_id=memberBean.getMember_id();
 		String orderer_name=memberBean.getMember_name();
-		ArrayList<OrderBean> my_order_list=(ArrayList<OrderBean>)session.getAttribute("my_order_list");
+		String email1=memberBean.getEmail1();
+		String email2=memberBean.getEmail2();
 		
+		ArrayList<OrderBean> my_order_list=(ArrayList<OrderBean>)session.getAttribute("my_order_list");
 		
 		String receiver_name=request.getParameter("receiver_name");
 		String receiver_hp1=request.getParameter("receiver_hp1");
@@ -145,6 +151,8 @@ public class OrderControllerImpl extends BaseController implements OrderControll
 			orderBean.setMember_id(member_id);
 			orderBean.setOrderer_name(orderer_name);
 			orderBean.setReceiver_name(receiver_name);
+			orderBean.setEmail1(email1); //주문자 이메일을 세팅한다.
+			orderBean.setEmail2(email2);
 			
 			orderBean.setReceiver_hp1(receiver_hp1);
 			orderBean.setReceiver_hp2(receiver_hp2);
@@ -171,8 +179,32 @@ public class OrderControllerImpl extends BaseController implements OrderControll
 		}//end for
 		
 		orderService.addOrderGoods(my_order_list);
+		sendOrderMail(my_order_list);
+		
 		mav.addObject("my_order_list", my_order_list);
 		return mav;
+	}
+	
+	private void  sendOrderMail(ArrayList my_order_list){
+		OrderBean orderBean=(OrderBean)my_order_list.get(0);
+		String email1=orderBean.getEmail1();
+		String email2=orderBean.getEmail2();
+		String mail_receiver=email1+"@"+email2;  //주문자 이메일 주소
+		
+		String order_result_html="<h2>최종 주문 사항 </h2><br>";
+		String goods_id=orderBean.getGoods_id();
+		String goods_title=orderBean.getGoods_title();
+		int order_goods_qty=orderBean.getOrder_goods_qty();
+		int total_goods_price=orderBean.getTotal_goods_price();
+		
+		order_result_html+="주문상품 번호:"+goods_id+"<br>";
+		order_result_html+="주문상품이름:"+goods_title+"<br>";
+		order_result_html+="주문상품개수:"+order_goods_qty+"<br>";
+		order_result_html+="주문금액합계"+total_goods_price+"<br>";
+		
+		mailService.sendMail(mail_receiver,"최종 주문 내역입니다.",order_result_html);
+		
+		
 	}
 
 }

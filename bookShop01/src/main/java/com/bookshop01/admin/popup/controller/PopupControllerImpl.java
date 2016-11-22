@@ -94,6 +94,7 @@ public class PopupControllerImpl extends BaseController implements PopupControll
 	
 	@RequestMapping(value="/addPopup.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public void addPopup(HttpServletRequest request, HttpServletResponse response)  throws Exception {
+		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out=response.getWriter();
 		
 		String goods_id=request.getParameter("goods_id");
@@ -121,7 +122,19 @@ public class PopupControllerImpl extends BaseController implements PopupControll
 		popupServce.addPopup(popupBean);
 		
 		out.print("팝업 정보를 추가했습니다.");
+	}
+	
+	@RequestMapping(value="/deletePopup.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public void deletePopup(HttpServletRequest request, HttpServletResponse response)  throws Exception {
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out=response.getWriter();
+		String goods_id=request.getParameter("goods_id");
+		
+		popupServce.deletePopup(goods_id);
+		out.print("팝업 정보를 해제 했습니다.!!");
 		
 	}
+	
+	
 		
 }

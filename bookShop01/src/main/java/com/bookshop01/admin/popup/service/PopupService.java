@@ -10,4 +10,6 @@ public interface PopupService {
 	//팝업 관련 정보를 조회하는 메서드
 	public ArrayList listPopupGoods(HashMap condMap) throws Exception;
 	
+	public void deletePopup(String goods_id) throws Exception;
+	
 }

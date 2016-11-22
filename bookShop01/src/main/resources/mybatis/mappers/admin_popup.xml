@@ -40,4 +40,10 @@
 	   select * from t_shoping_popup
 	   order by credate desc
 	</select>
+	
+	<delete id="deletePopup" parameterType="string">
+	  delete from t_shoping_popup
+	  where 
+	  goods_id=#{goods_id}
+	</delete>
 </mapper>

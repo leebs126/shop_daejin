@@ -25,8 +25,12 @@ public class PopupServiceImpl implements PopupService {
 	//팝업 관련 정보를 조회하는 메서드
 	public ArrayList listPopupGoods(HashMap condMap) throws Exception{
 		ArrayList popupList=popupDao.listPopupGoods(condMap);
-		
 		return popupList;
+	}
+	
+	public void deletePopup(String goods_id) throws Exception{
+		popupDao.deletePopup(goods_id);
+		
 	}
 		
 	

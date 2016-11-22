@@ -22,6 +22,10 @@ public class PopupDaoImpl implements PopupDao {
 		ArrayList popupList=(ArrayList)sqlSession.selectList("mapper.admin.popup.listPopupGoods",condMap);
 		return popupList;
 	}
+	
+	public void deletePopup(String goods_id) throws Exception{
+		sqlSession.delete("mapper.admin.popup.deletePopup",goods_id);
+	}
 }
 
 
